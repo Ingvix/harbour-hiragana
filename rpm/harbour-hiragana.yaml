@@ -1,0 +1,31 @@
+Name: harbour-hiragana
+Summary: Hiragana Trainer
+Version: 1.0
+Release: 1
+Group: Qt/Qt
+URL: http://example.org/
+License: BSD
+Sources:
+- '%{name}-%{version}.tar.bz2'
+Description: |-
+  A Hiragana trainer which includes three test modes.
+Configure: none
+Builder: qtc5
+PkgConfigBR:
+- Qt5Quick
+- Qt5Qml
+- Qt5Core
+- sailfishapp >= 0.0.10
+Requires:
+- sailfishsilica-qt5 >= 0.10.9
+Files:
+- '%{_bindir}'
+- '%{_datadir}/%{name}/qml'
+- '%{_datadir}/applications/%{name}.desktop'
+- '%{_datadir}/icons/hicolor/86x86/apps/%{name}.png'
+- /usr/bin
+- /usr/share/harbour-hiragana
+- /usr/share/applications
+- /usr/share/icons/hicolor/86x86/apps
+- /usr/share/harbour-hiragana
+PkgBR: []
