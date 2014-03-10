@@ -309,7 +309,12 @@ Page {
             }
 
             if (ji.checked) {
-                testclass.add("ji/zi", "Hiragana/ji.png")
+                if(modus === 2) { // In free mode we only want to type in the transcription
+                    testclass.add("ji", "Hiragana/ji.png")
+                }
+                else {
+                    testclass.add("ji/zi", "Hiragana/ji.png")
+                }
             }
 
             if (zu.checked) {
@@ -332,11 +337,21 @@ Page {
             }
 
             if (di.checked) {
-                testclass.add("ji/di", "Hiragana/di.png")
+                if(modus === 2) { // In free mode we only want to type in the transcription
+                    testclass.add("ji", "Hiragana/di.png")
+                }
+                else {
+                    testclass.add("ji/di", "Hiragana/di.png")
+                }
             }
 
             if (du.checked) {
-                testclass.add("zu/du", "Hiragana/du.png")
+                if(modus === 2) {
+                    testclass.add("zu", "Hiragana/du.png")
+                }
+                else {
+                    testclass.add("zu/du", "Hiragana/du.png")
+                }
             }
 
             if (de.checked) {
@@ -534,15 +549,30 @@ Page {
             // The "ja" line
 
             if (dya.checked) {
-                testclass.add("ja(d)", "Hiragana/dya.png")
+                if(modus === 2) { // In free mode we only want to type in the transcription
+                    testclass.add("ja", "Hiragana/dya.png")
+                }
+                else {
+                    testclass.add("ja(d)", "Hiragana/dya.png")
+                }
             }
 
             if (dyu.checked) {
-                testclass.add("ju(d)", "Hiragana/dyu.png")
+                if(modus === 2) {
+                    testclass.add("ju", "Hiragana/dyu.png")
+                }
+                else {
+                    testclass.add("ju(d)", "Hiragana/dyu.png")
+                }
             }
 
             if (dyo.checked) {
-                testclass.add("jo(d)", "Hiragana/dyo.png")
+                if(modus === 2) {
+                    testclass.add("jo", "Hiragana/dyo.png")
+                }
+                else {
+                    testclass.add("jo(d)", "Hiragana/dyo.png")
+                }
             }
 
 
@@ -1607,5 +1637,3 @@ Page {
         }
     }
 }
-
-
