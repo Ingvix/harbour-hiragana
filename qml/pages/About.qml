@@ -60,7 +60,7 @@ Page {
             }
 
             Label {
-                text: "Hiragana Version 1.1"
+                text: "Hiragana Version 1.2"
             }
 
             Text  {
