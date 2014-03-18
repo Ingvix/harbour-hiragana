@@ -594,15 +594,15 @@ Page {
             // The "pya" line
 
             if (pya.checked) {
-                testclass.add("pya", "Hiragana/gya.png")
+                testclass.add("pya", "Hiragana/pya.png")
             }
 
             if (pyu.checked) {
-                testclass.add("pyu", "Hiragana/gyu.png")
+                testclass.add("pyu", "Hiragana/pyu.png")
             }
 
             if (pyo.checked) {
-                testclass.add("pyo", "Hiragana/gyo.png")
+                testclass.add("pyo", "Hiragana/pyo.png")
             }
 
 
