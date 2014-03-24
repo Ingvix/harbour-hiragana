@@ -28,12 +28,8 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifdef QT_QML_DEBUG
 #include <QtQuick>
-#endif
-
 #include <sailfishapp.h>
-#include <QtQml>
 #include "testclass.h"
 
 int main(int argc, char *argv[])
@@ -49,6 +45,17 @@ int main(int argc, char *argv[])
     //
     // To display the view, call "show()" (will show fullscreen on device).
 
-    return SailfishApp::main(argc, argv);
+        QGuiApplication *app = SailfishApp::application(argc,argv);
+
+        Testclass testclass;
+
+        QQuickView *view = SailfishApp::createView();
+
+        view->rootContext()->setContextProperty("testclass", &testclass);
+
+        view->setSource(SailfishApp::pathTo("qml/harbour-hiragana.qml"));
+        view->show();
+
+        return app->exec();
 }
 
