@@ -3,8 +3,8 @@ Summary: Hiragana Trainer
 Version: 1.4
 Release: 1
 Group: Qt/Qt
-URL: http://example.org/
-License: BSD
+URL: https://github.com/Top-Ranger/harbour-hiragana
+License: modified BSD
 Sources:
 - '%{name}-%{version}.tar.bz2'
 Description: |-
