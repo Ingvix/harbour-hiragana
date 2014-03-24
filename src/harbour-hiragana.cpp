@@ -45,17 +45,17 @@ int main(int argc, char *argv[])
     //
     // To display the view, call "show()" (will show fullscreen on device).
 
-        QGuiApplication *app = SailfishApp::application(argc,argv);
+    QGuiApplication *app = SailfishApp::application(argc,argv);
 
-        Testclass testclass;
+    Testclass testclass;
 
-        QQuickView *view = SailfishApp::createView();
+    QQuickView *view = SailfishApp::createView();
 
-        view->rootContext()->setContextProperty("testclass", &testclass);
+    view->rootContext()->setContextProperty("testclass", &testclass);
 
-        view->setSource(SailfishApp::pathTo("qml/harbour-hiragana.qml"));
-        view->show();
+    view->setSource(SailfishApp::pathTo("qml/harbour-hiragana.qml"));
+    view->show();
 
-        return app->exec();
+    return app->exec();
 }
 
