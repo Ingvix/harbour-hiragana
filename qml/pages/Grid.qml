@@ -696,22 +696,32 @@ Page {
                 Switch {
                     id: a
                     icon.source: "Hiragana/a.png"
+                    checked: save.getBool("a")
+                    onClicked: {save.saveBool("a",checked)}
                 }
                 Switch {
                     id: i
                     icon.source: "Hiragana/i.png"
+                    checked: save.getBool("i")
+                    onClicked: {save.saveBool("i",checked)}
                 }
                 Switch {
                     id: u
                     icon.source: "Hiragana/u.png"
+                    checked: save.getBool("u")
+                    onClicked: {save.saveBool("u",checked)}
                 }
                 Switch {
                     id: e
                     icon.source: "Hiragana/e.png"
+                    checked: save.getBool("e")
+                    onClicked: {save.saveBool("e",checked)}
                 }
                 Switch {
                     id: o
                     icon.source: "Hiragana/o.png"
+                    checked: save.getBool("o")
+                    onClicked: {save.saveBool("o",checked)}
                 }
                 Label{
                     text: "     a"
@@ -734,22 +744,32 @@ Page {
                 Switch {
                     id: ka
                     icon.source: "Hiragana/ka.png"
+                    checked: save.getBool("ka")
+                    onClicked: {save.saveBool("ka",checked)}
                 }
                 Switch {
                     id: ki
                     icon.source: "Hiragana/ki.png"
+                    checked: save.getBool("ki")
+                    onClicked: {save.saveBool("ki",checked)}
                 }
                 Switch {
                     id: ku
                     icon.source: "Hiragana/ku.png"
+                    checked: save.getBool("ku")
+                    onClicked: {save.saveBool("ku",checked)}
                 }
                 Switch {
                     id: ke
                     icon.source: "Hiragana/ke.png"
+                    checked: save.getBool("ke")
+                    onClicked: {save.saveBool("ke",checked)}
                 }
                 Switch {
                     id: ko
                     icon.source: "Hiragana/ko.png"
+                    checked: save.getBool("ko")
+                    onClicked: {save.saveBool("ko",checked)}
                 }
                 Label{
                     text: "     ka"
@@ -772,22 +792,32 @@ Page {
                 Switch {
                     id: sa
                     icon.source: "Hiragana/sa.png"
+                    checked: save.getBool("sa")
+                    onClicked: {save.saveBool("sa",checked)}
                 }
                 Switch {
                     id: shi
                     icon.source: "Hiragana/shi.png"
+                    checked: save.getBool("shi")
+                    onClicked: {save.saveBool("shi",checked)}
                 }
                 Switch {
                     id: su
                     icon.source: "Hiragana/su.png"
+                    checked: save.getBool("su")
+                    onClicked: {save.saveBool("su",checked)}
                 }
                 Switch {
                     id: se
                     icon.source: "Hiragana/se.png"
+                    checked: save.getBool("se")
+                    onClicked: {save.saveBool("se",checked)}
                 }
                 Switch {
                     id: so
                     icon.source: "Hiragana/so.png"
+                    checked: save.getBool("so")
+                    onClicked: {save.saveBool("so",checked)}
                 }
                 Label{
                     text: "     sa"
@@ -811,22 +841,32 @@ Page {
                 Switch {
                     id: ta
                     icon.source: "Hiragana/ta.png"
+                    checked: save.getBool("ta")
+                    onClicked: {save.saveBool("ta",checked)}
                 }
                 Switch {
                     id: chi
                     icon.source: "Hiragana/chi.png"
+                    checked: save.getBool("chi")
+                    onClicked: {save.saveBool("chi",checked)}
                 }
                 Switch {
                     id: tsu
                     icon.source: "Hiragana/tsu.png"
+                    checked: save.getBool("tsu")
+                    onClicked: {save.saveBool("tsu",checked)}
                 }
                 Switch {
                     id: te
                     icon.source: "Hiragana/te.png"
+                    checked: save.getBool("te")
+                    onClicked: {save.saveBool("te",checked)}
                 }
                 Switch {
                     id: to
                     icon.source: "Hiragana/to.png"
+                    checked: save.getBool("to")
+                    onClicked: {save.saveBool("to",checked)}
                 }
                 Label{
                     text: "     ta"
@@ -850,22 +890,32 @@ Page {
                 Switch {
                     id: na
                     icon.source: "Hiragana/na.png"
+                    checked: save.getBool("na")
+                    onClicked: {save.saveBool("na",checked)}
                 }
                 Switch {
                     id: ni
                     icon.source: "Hiragana/ni.png"
+                    checked: save.getBool("ni")
+                    onClicked: {save.saveBool("ni",checked)}
                 }
                 Switch {
                     id: nu
                     icon.source: "Hiragana/nu.png"
+                    checked: save.getBool("nu")
+                    onClicked: {save.saveBool("nu",checked)}
                 }
                 Switch {
                     id: ne
                     icon.source: "Hiragana/ne.png"
+                    checked: save.getBool("ne")
+                    onClicked: {save.saveBool("ne",checked)}
                 }
                 Switch {
                     id: no
                     icon.source: "Hiragana/no.png"
+                    checked: save.getBool("no")
+                    onClicked: {save.saveBool("no",checked)}
                 }
                 Label{
                     text: "     na"
@@ -888,22 +938,32 @@ Page {
                 Switch {
                     id: ha
                     icon.source: "Hiragana/ha.png"
+                    checked: save.getBool("ha")
+                    onClicked: {save.saveBool("ha",checked)}
                 }
                 Switch {
                     id: hi
                     icon.source: "Hiragana/hi.png"
+                    checked: save.getBool("hi")
+                    onClicked: {save.saveBool("hi",checked)}
                 }
                 Switch {
                     id: fu
                     icon.source: "Hiragana/fu.png"
+                    checked: save.getBool("fu")
+                    onClicked: {save.saveBool("fu",checked)}
                 }
                 Switch {
                     id: he
                     icon.source: "Hiragana/he.png"
+                    checked: save.getBool("he")
+                    onClicked: {save.saveBool("he",checked)}
                 }
                 Switch {
                     id: ho
                     icon.source: "Hiragana/ho.png"
+                    checked: save.getBool("ho")
+                    onClicked: {save.saveBool("ho",checked)}
                 }
                 Label{
                     text: "     ha"
@@ -926,22 +986,32 @@ Page {
                 Switch {
                     id: ma
                     icon.source: "Hiragana/ma.png"
+                    checked: save.getBool("ma")
+                    onClicked: {save.saveBool("ma",checked)}
                 }
                 Switch {
                     id: mi
                     icon.source: "Hiragana/mi.png"
+                    checked: save.getBool("mi")
+                    onClicked: {save.saveBool("mi",checked)}
                 }
                 Switch {
                     id: mu
                     icon.source: "Hiragana/mu.png"
+                    checked: save.getBool("mu")
+                    onClicked: {save.saveBool("mu",checked)}
                 }
                 Switch {
                     id: me
                     icon.source: "Hiragana/me.png"
+                    checked: save.getBool("me")
+                    onClicked: {save.saveBool("me",checked)}
                 }
                 Switch {
                     id: mo
                     icon.source: "Hiragana/mo.png"
+                    checked: save.getBool("mo")
+                    onClicked: {save.saveBool("mo",checked)}
                 }
                 Label{
                     text: "     ma"
@@ -965,6 +1035,8 @@ Page {
                 Switch {
                     id: ya
                     icon.source: "Hiragana/ya.png"
+                    checked: save.getBool("ya")
+                    onClicked: {save.saveBool("ya",checked)}
                 }
                 Image {
                     source: "Hiragana/empty.png"
@@ -972,6 +1044,8 @@ Page {
                 Switch {
                     id: yu
                     icon.source: "Hiragana/yu.png"
+                    checked: save.getBool("yu")
+                    onClicked: {save.saveBool("yu",checked)}
                 }
                 Image {
                     source: "Hiragana/empty.png"
@@ -979,6 +1053,8 @@ Page {
                 Switch {
                     id: yo
                     icon.source: "Hiragana/yo.png"
+                    checked: save.getBool("yo")
+                    onClicked: {save.saveBool("yo",checked)}
                 }
                 Label{
                     text: "     ya"
@@ -1001,22 +1077,32 @@ Page {
                 Switch {
                     id: ra
                     icon.source: "Hiragana/ra.png"
+                    checked: save.getBool("ra")
+                    onClicked: {save.saveBool("ra",checked)}
                 }
                 Switch {
                     id: ri
                     icon.source: "Hiragana/ri.png"
+                    checked: save.getBool("ri")
+                    onClicked: {save.saveBool("ri",checked)}
                 }
                 Switch {
                     id: ru
                     icon.source: "Hiragana/ru.png"
+                    checked: save.getBool("ru")
+                    onClicked: {save.saveBool("ru",checked)}
                 }
                 Switch {
                     id: re
                     icon.source: "Hiragana/re.png"
+                    checked: save.getBool("re")
+                    onClicked: {save.saveBool("re",checked)}
                 }
                 Switch {
                     id: ro
                     icon.source: "Hiragana/ro.png"
+                    checked: save.getBool("ro")
+                    onClicked: {save.saveBool("ro",checked)}
                 }
                 Label{
                     text: "     ra"
@@ -1039,6 +1125,8 @@ Page {
                 Switch {
                     id: wa
                     icon.source: "Hiragana/wa.png"
+                    checked: save.getBool("wa")
+                    onClicked: {save.saveBool("wa",checked)}
                 }
                 Image {
                     source: "Hiragana/empty.png"
@@ -1052,6 +1140,8 @@ Page {
                 Switch {
                     id: wo
                     icon.source: "Hiragana/wo.png"
+                    checked: save.getBool("wo")
+                    onClicked: {save.saveBool("wo",checked)}
                 }
                 Label{
                     text: "     wa"
@@ -1086,6 +1176,8 @@ Page {
                 Switch {
                     id: n
                     icon.source: "Hiragana/n.png"
+                    checked: save.getBool("n")
+                    onClicked: {save.saveBool("n",checked)}
                 }
                 Label{
                     text: "      "
@@ -1119,22 +1211,32 @@ Page {
                 Switch {
                     id: ga
                     icon.source: "Hiragana/ga.png"
+                    checked: save.getBool("ga")
+                    onClicked: {save.saveBool("ga",checked)}
                 }
                 Switch {
                     id: gi
                     icon.source: "Hiragana/gi.png"
+                    checked: save.getBool("gi")
+                    onClicked: {save.saveBool("gi",checked)}
                 }
                 Switch {
                     id: gu
                     icon.source: "Hiragana/gu.png"
+                    checked: save.getBool("gu")
+                    onClicked: {save.saveBool("gu",checked)}
                 }
                 Switch {
                     id: ge
                     icon.source: "Hiragana/ge.png"
+                    checked: save.getBool("ge")
+                    onClicked: {save.saveBool("ge",checked)}
                 }
                 Switch {
                     id: go
                     icon.source: "Hiragana/go.png"
+                    checked: save.getBool("go")
+                    onClicked: {save.saveBool("go",checked)}
                 }
                 Label{
                     text: "     ga"
@@ -1158,22 +1260,32 @@ Page {
                 Switch {
                     id: za
                     icon.source: "Hiragana/za.png"
+                    checked: save.getBool("za")
+                    onClicked: {save.saveBool("za",checked)}
                 }
                 Switch {
                     id: ji
                     icon.source: "Hiragana/ji.png"
+                    checked: save.getBool("ji")
+                    onClicked: {save.saveBool("ji",checked)}
                 }
                 Switch {
                     id: zu
                     icon.source: "Hiragana/zu.png"
+                    checked: save.getBool("zu")
+                    onClicked: {save.saveBool("zu",checked)}
                 }
                 Switch {
                     id: ze
                     icon.source: "Hiragana/ze.png"
+                    checked: save.getBool("ze")
+                    onClicked: {save.saveBool("ze",checked)}
                 }
                 Switch {
                     id: zo
                     icon.source: "Hiragana/zo.png"
+                    checked: save.getBool("zo")
+                    onClicked: {save.saveBool("zo",checked)}
                 }
                 Label{
                     text: "     za"
@@ -1197,22 +1309,32 @@ Page {
                 Switch {
                     id: da
                     icon.source: "Hiragana/da.png"
+                    checked: save.getBool("da")
+                    onClicked: {save.saveBool("da",checked)}
                 }
                 Switch {
                     id: di
                     icon.source: "Hiragana/di.png"
+                    checked: save.getBool("di")
+                    onClicked: {save.saveBool("di",checked)}
                 }
                 Switch {
                     id: du
                     icon.source: "Hiragana/du.png"
+                    checked: save.getBool("du")
+                    onClicked: {save.saveBool("du",checked)}
                 }
                 Switch {
                     id: de
                     icon.source: "Hiragana/de.png"
+                    checked: save.getBool("de")
+                    onClicked: {save.saveBool("de",checked)}
                 }
                 Switch {
                     id: doswitch
                     icon.source: "Hiragana/do.png"
+                    checked: save.getBool("do")
+                    onClicked: {save.saveBool("do",checked)}
                 }
                 Label{
                     text: "     da"
@@ -1235,22 +1357,32 @@ Page {
                 Switch {
                     id: ba
                     icon.source: "Hiragana/ba.png"
+                    checked: save.getBool("ba")
+                    onClicked: {save.saveBool("ba",checked)}
                 }
                 Switch {
                     id: bi
                     icon.source: "Hiragana/bi.png"
+                    checked: save.getBool("bi")
+                    onClicked: {save.saveBool("bi",checked)}
                 }
                 Switch {
                     id: bu
                     icon.source: "Hiragana/bu.png"
+                    checked: save.getBool("bu")
+                    onClicked: {save.saveBool("bu",checked)}
                 }
                 Switch {
                     id: be
                     icon.source: "Hiragana/be.png"
+                    checked: save.getBool("be")
+                    onClicked: {save.saveBool("be",checked)}
                 }
                 Switch {
                     id: bo
                     icon.source: "Hiragana/bo.png"
+                    checked: save.getBool("bo")
+                    onClicked: {save.saveBool("bo",checked)}
                 }
                 Label{
                     text: "     ba"
@@ -1274,22 +1406,32 @@ Page {
                 Switch {
                     id: pa
                     icon.source: "Hiragana/pa.png"
+                    checked: save.getBool("pa")
+                    onClicked: {save.saveBool("pa",checked)}
                 }
                 Switch {
                     id: pi
                     icon.source: "Hiragana/pi.png"
+                    checked: save.getBool("pi")
+                    onClicked: {save.saveBool("pi",checked)}
                 }
                 Switch {
                     id: pu
                     icon.source: "Hiragana/pu.png"
+                    checked: save.getBool("pu")
+                    onClicked: {save.saveBool("pu",checked)}
                 }
                 Switch {
                     id: pe
                     icon.source: "Hiragana/pe.png"
+                    checked: save.getBool("pe")
+                    onClicked: {save.saveBool("pe",checked)}
                 }
                 Switch {
                     id: po
                     icon.source: "Hiragana/po.png"
+                    checked: save.getBool("po")
+                    onClicked: {save.saveBool("po",checked)}
                 }
                 Label{
                     text: "     pa"
@@ -1324,14 +1466,20 @@ Page {
                 Switch {
                     id: kya
                     icon.source: "Hiragana/kya.png"
+                    checked: save.getBool("kya")
+                    onClicked: {save.saveBool("kya",checked)}
                 }
                 Switch {
                     id: kyu
                     icon.source: "Hiragana/kyu.png"
+                    checked: save.getBool("kyu")
+                    onClicked: {save.saveBool("kyu",checked)}
                 }
                 Switch {
                     id: kyo
                     icon.source: "Hiragana/kyo.png"
+                    checked: save.getBool("kyo")
+                    onClicked: {save.saveBool("kyo",checked)}
                 }
                 Label{
                     text: "         kya"
@@ -1349,14 +1497,20 @@ Page {
                 Switch {
                     id: sha
                     icon.source: "Hiragana/sha.png"
+                    checked: save.getBool("sha")
+                    onClicked: {save.saveBool("sha",checked)}
                 }
                 Switch {
                     id: shu
                     icon.source: "Hiragana/shu.png"
+                    checked: save.getBool("shu")
+                    onClicked: {save.saveBool("shu",checked)}
                 }
                 Switch {
                     id: sho
                     icon.source: "Hiragana/sho.png"
+                    checked: save.getBool("sho")
+                    onClicked: {save.saveBool("sho",checked)}
                 }
                 Label{
                     text: "         sha"
@@ -1374,14 +1528,20 @@ Page {
                 Switch {
                     id: cha
                     icon.source: "Hiragana/cha.png"
+                    checked: save.getBool("cha")
+                    onClicked: {save.saveBool("cha",checked)}
                 }
                 Switch {
                     id: chu
                     icon.source: "Hiragana/chu.png"
+                    checked: save.getBool("chu")
+                    onClicked: {save.saveBool("chu",checked)}
                 }
                 Switch {
                     id: cho
                     icon.source: "Hiragana/cho.png"
+                    checked: save.getBool("cho")
+                    onClicked: {save.saveBool("cho",checked)}
                 }
                 Label{
                     text: "         cha"
@@ -1399,14 +1559,20 @@ Page {
                 Switch {
                     id: nya
                     icon.source: "Hiragana/nya.png"
+                    checked: save.getBool("nya")
+                    onClicked: {save.saveBool("nya",checked)}
                 }
                 Switch {
                     id: nyu
                     icon.source: "Hiragana/nyu.png"
+                    checked: save.getBool("nyu")
+                    onClicked: {save.saveBool("nyu",checked)}
                 }
                 Switch {
                     id: nyo
                     icon.source: "Hiragana/nyo.png"
+                    checked: save.getBool("nyo")
+                    onClicked: {save.saveBool("nyo",checked)}
                 }
                 Label{
                     text: "         nya"
@@ -1424,14 +1590,20 @@ Page {
                 Switch {
                     id: hya
                     icon.source: "Hiragana/hya.png"
+                    checked: save.getBool("hya")
+                    onClicked: {save.saveBool("hya",checked)}
                 }
                 Switch {
                     id: hyu
                     icon.source: "Hiragana/hyu.png"
+                    checked: save.getBool("hyu")
+                    onClicked: {save.saveBool("hyu",checked)}
                 }
                 Switch {
                     id: hyo
                     icon.source: "Hiragana/hyo.png"
+                    checked: save.getBool("hyo")
+                    onClicked: {save.saveBool("hyo",checked)}
                 }
                 Label{
                     text: "         hya"
@@ -1449,14 +1621,20 @@ Page {
                 Switch {
                     id: mya
                     icon.source: "Hiragana/mya.png"
+                    checked: save.getBool("mya")
+                    onClicked: {save.saveBool("mya",checked)}
                 }
                 Switch {
                     id: myu
                     icon.source: "Hiragana/myu.png"
+                    checked: save.getBool("myu")
+                    onClicked: {save.saveBool("myu",checked)}
                 }
                 Switch {
                     id: myo
                     icon.source: "Hiragana/myo.png"
+                    checked: save.getBool("myo")
+                    onClicked: {save.saveBool("myo",checked)}
                 }
                 Label{
                     text: "         mya"
@@ -1474,14 +1652,20 @@ Page {
                 Switch {
                     id: rya
                     icon.source: "Hiragana/rya.png"
+                    checked: save.getBool("rya")
+                    onClicked: {save.saveBool("rya",checked)}
                 }
                 Switch {
                     id: ryu
                     icon.source: "Hiragana/ryu.png"
+                    checked: save.getBool("ryu")
+                    onClicked: {save.saveBool("ryu",checked)}
                 }
                 Switch {
                     id: ryo
                     icon.source: "Hiragana/ryo.png"
+                    checked: save.getBool("ryo")
+                    onClicked: {save.saveBool("ryo",checked)}
                 }
                 Label{
                     text: "         rya"
@@ -1510,14 +1694,20 @@ Page {
                 Switch {
                     id: gya
                     icon.source: "Hiragana/gya.png"
+                    checked: save.getBool("gya")
+                    onClicked: {save.saveBool("gya",checked)}
                 }
                 Switch {
                     id: gyu
                     icon.source: "Hiragana/gyu.png"
+                    checked: save.getBool("gyu")
+                    onClicked: {save.saveBool("gyu",checked)}
                 }
                 Switch {
                     id: gyo
                     icon.source: "Hiragana/gyo.png"
+                    checked: save.getBool("gyo")
+                    onClicked: {save.saveBool("gyo",checked)}
                 }
                 Label{
                     text: "         gya"
@@ -1535,14 +1725,20 @@ Page {
                 Switch {
                     id: ja
                     icon.source: "Hiragana/ja.png"
+                    checked: save.getBool("ja")
+                    onClicked: {save.saveBool("ja",checked)}
                 }
                 Switch {
                     id: ju
                     icon.source: "Hiragana/ju.png"
+                    checked: save.getBool("ju")
+                    onClicked: {save.saveBool("ju",checked)}
                 }
                 Switch {
                     id: jo
                     icon.source: "Hiragana/jo.png"
+                    checked: save.getBool("jo")
+                    onClicked: {save.saveBool("jo",checked)}
                 }
                 Label{
                     text: "         ja"
@@ -1559,14 +1755,20 @@ Page {
                 Switch {
                     id: dya
                     icon.source: "Hiragana/dya.png"
+                    checked: save.getBool("dya")
+                    onClicked: {save.saveBool("dya",checked)}
                 }
                 Switch {
                     id: dyu
                     icon.source: "Hiragana/dyu.png"
+                    checked: save.getBool("dyu")
+                    onClicked: {save.saveBool("dyu",checked)}
                 }
                 Switch {
                     id: dyo
                     icon.source: "Hiragana/dyo.png"
+                    checked: save.getBool("dyo")
+                    onClicked: {save.saveBool("dyo",checked)}
                 }
                 Label{
                     text: "         ja(d)"
@@ -1584,14 +1786,20 @@ Page {
                 Switch {
                     id: bya
                     icon.source: "Hiragana/bya.png"
+                    checked: save.getBool("bya")
+                    onClicked: {save.saveBool("bya",checked)}
                 }
                 Switch {
                     id: byu
                     icon.source: "Hiragana/byu.png"
+                    checked: save.getBool("byu")
+                    onClicked: {save.saveBool("byu",checked)}
                 }
                 Switch {
                     id: byo
                     icon.source: "Hiragana/byo.png"
+                    checked: save.getBool("byo")
+                    onClicked: {save.saveBool("byo",checked)}
                 }
                 Label{
                     text: "         bya"
@@ -1609,14 +1817,20 @@ Page {
                 Switch {
                     id: pya
                     icon.source: "Hiragana/pya.png"
+                    checked: save.getBool("pya")
+                    onClicked: {save.saveBool("pya",checked)}
                 }
                 Switch {
                     id: pyu
                     icon.source: "Hiragana/pyu.png"
+                    checked: save.getBool("pyu")
+                    onClicked: {save.saveBool("pyu",checked)}
                 }
                 Switch {
                     id: pyo
                     icon.source: "Hiragana/pyo.png"
+                    checked: save.getBool("pyo")
+                    onClicked: {save.saveBool("pyo",checked)}
                 }
                 Label{
                     text: "         pya"

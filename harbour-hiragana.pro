@@ -12,7 +12,8 @@ CONFIG += sailfishapp
 
 SOURCES += src/harbour-hiragana.cpp \
     src/listelement.cpp \
-    src/testclass.cpp
+    src/testclass.cpp \
+    src/persistenceclass.cpp
 
 OTHER_FILES += qml/harbour-hiragana.qml \
     qml/cover/CoverPage.qml \
@@ -138,5 +139,6 @@ OTHER_FILES += qml/harbour-hiragana.qml \
 
 HEADERS += \
     src/listelement.h \
-    src/testclass.h
+    src/testclass.h \
+    src/persistenceclass.h
 
