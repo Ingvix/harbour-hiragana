@@ -40,7 +40,6 @@ PersistenceClass::PersistenceClass(QObject *parent) :
     QObject(parent),
     _hash()
 {
-    // TODO: Load
     QString path = QString(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation));
     path.append("/harbour-hiragana/harbour-hiragana.xml");
 
@@ -116,7 +115,6 @@ PersistenceClass::~PersistenceClass()
 
 void PersistenceClass::saveNow()
 {
-    //TODO: Save
     QString path = QString(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation));
     path.append("/harbour-hiragana/");
 
@@ -143,9 +141,10 @@ void PersistenceClass::saveNow()
             writer.writeStartElement("bool");
             writer.writeAttribute("key",i.key());
             writer.writeAttribute("value", i.value() ?"true":"false");
+	    writer.writeEndElement();
         }
-
-        writer.writeEndElement();
+        
+	writer.writeEndElement();
         writer.writeEndDocument();
 
         if(writer.hasError())
