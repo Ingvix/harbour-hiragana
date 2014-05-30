@@ -133,6 +133,13 @@ PersistenceClass::~PersistenceClass()
     saveNow();
 }
 
+void PersistenceClass::clear()
+{
+    _hash.clear();
+    _intHash.clear();
+    _hasChanged = true;
+}
+
 void PersistenceClass::saveNow()
 {
     if(_hasChanged)
