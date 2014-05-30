@@ -48,6 +48,8 @@ Page {
         property string valuefive: "Hiragana/empty.png"
         property string valuesix: "Hiragana/empty.png"
         property string valuecorrect: ""
+        property int sumCorrect: save.getInt("ReverseTestCorrect")
+        property int sumQuestions: save.getInt("ReverseTestQuestions")
     }
 
     Item {
@@ -58,6 +60,7 @@ Page {
             {
                 variable.started = true
                 variable.questions++
+                variable.sumQuestions++
                 testclass.newQuestion()
                 variable.picture = testclass.picture()
                 variable.rightanswer = testclass.correct()
@@ -100,7 +103,10 @@ Page {
             if(i === variable.rightanswer)
             {
                 variable.correct++
+                variable.sumCorrect++
             }
+            save.saveInt("ReverseTestQuestions",variable.sumQuestions)
+            save.saveInt("ReverseTestCorrect",variable.sumCorrect)
             variable.started = false
             //TODO: Disable buttons
         }
@@ -131,15 +137,32 @@ Page {
 
             Row {
                 Label {
-                    text: "Questions: " + variable.questions
-                }
-
-                Label{
-                    text: "                       " //TODO: Proper Solution
+                    text: "Questions: " + variable.questions + "    "
                 }
 
                 Label {
-                    text: "Correct: " + variable.correct
+                    text: "Correct: " + variable.correct + "    "
+                }
+
+                Label{
+                    text: "Ratio: " + (variable.questions === 0?0:(100.0/variable.questions*variable.correct)) + "%"
+                }
+            }
+
+            Row {
+                Label {
+                    text: "Overall Questions: " + variable.sumQuestions + "    "
+                    font.pixelSize: Theme.fontSizeTiny
+                }
+
+                Label {
+                    text: "Overall Correct: " + variable.sumCorrect + "    "
+                    font.pixelSize: Theme.fontSizeTiny
+                }
+
+                Label{
+                    text: "Overall Ratio: " + (variable.sumQuestions === 0?0:(100.0/variable.sumQuestions*variable.sumCorrect)) + "%"
+                    font.pixelSize: Theme.fontSizeTiny
                 }
             }
 

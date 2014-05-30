@@ -39,6 +39,7 @@
 PersistenceClass::PersistenceClass(QObject *parent) :
     QObject(parent),
     _hash(),
+    _intHash(),
     _hasChanged(false)
 {
     QString path = QString(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation));
@@ -52,8 +53,6 @@ PersistenceClass::PersistenceClass(QObject *parent) :
 
         while(!reader.atEnd())
         {
-            QString key = "";
-            bool value = false;
             switch(reader.readNext())
             {
             case QXmlStreamReader::StartDocument:
@@ -67,11 +66,31 @@ PersistenceClass::PersistenceClass(QObject *parent) :
                 else if(reader.name() == "bool")
                 {
                     QXmlStreamAttributes attribute = reader.attributes();
+                    QString key = "";
+                    bool value = false;
+
                     if(attribute.hasAttribute("key") && attribute.hasAttribute("value"))
                     {
                         key = attribute.value("key").toString();
                         value = attribute.value("value").toString() == "true";
                         _hash[key] = value;
+                    }
+                    else
+                    {
+                        qWarning() << "WARNING in " __FILE__ << " " << __LINE__ << ": Reading - Can not determine attributes of " << reader.name();
+                    }
+                }
+                else if(reader.name() == "int")
+                {
+                    QXmlStreamAttributes attribute = reader.attributes();
+                    QString key = "";
+                    int value = 0;
+
+                    if(attribute.hasAttribute("key") && attribute.hasAttribute("value"))
+                    {
+                        key = attribute.value("key").toString();
+                        value = attribute.value("value").toInt();
+                        _intHash[key] = value;
                     }
                     else
                     {
@@ -147,6 +166,14 @@ void PersistenceClass::saveNow()
                 writer.writeEndElement();
             }
 
+            for(QHash<QString,int>::const_iterator ii = _intHash.begin(); ii != _intHash.end(); ++ii)
+            {
+                writer.writeStartElement("int");
+                writer.writeAttribute("key",ii.key());
+                writer.writeAttribute("value", QString("%1").arg(ii.value()));
+                writer.writeEndElement();
+            }
+
             writer.writeEndElement();
             writer.writeEndDocument();
 
@@ -173,5 +200,16 @@ bool PersistenceClass::getBool(QString s)
 void PersistenceClass::saveBool(QString s, bool b)
 {
     _hash[s] = b;
+    _hasChanged = true;
+}
+
+int PersistenceClass::getInt(QString s)
+{
+    return _intHash.value(s);
+}
+
+void PersistenceClass::saveInt(QString s, int i)
+{
+    _intHash[s] = i;
     _hasChanged = true;
 }
