@@ -1022,13 +1022,13 @@ Page {
             
             Row {
                 Button {
-                    text: "Enable all"
+                    text: "Enable all\nHiragana"
                     width: mainColumn.width/2
                     onClicked: remorsePopup.execute("Enable all Hiragana", function() { startTest.setMonographs(true); startTest.setDigraphs(true); startTest.setDiacritics(true); startTest.setDigraphsDiacritics(true) }, 3000 )
                 }
 
                 Button {
-                    text: "Disable all"
+                    text: "Disable all\nHiragana"
                     width: mainColumn.width/2
                     onClicked: remorsePopup.execute("Disable all Hiragana", function() { startTest.setMonographs(false); startTest.setDigraphs(false); startTest.setDiacritics(false); startTest.setDigraphsDiacritics(false) }, 3000 )
                 }
@@ -1043,13 +1043,13 @@ Page {
                 visible: switchMonographs.checked
 
                 Button {
-                    text: "Enable all"
+                    text: "Enable all\nMonographs"
                     width: mainColumn.width/2
                     onClicked: remorsePopup.execute("Enable all Monographs", function() { startTest.setMonographs(true) }, 3000 )
                 }
 
                 Button {
-                    text: "Disable all"
+                    text: "Disable all\nMonographs"
                     width: mainColumn.width/2
                     onClicked: remorsePopup.execute("Disable all Monographs", function() { startTest.setMonographs(false) }, 3000 )
                 }
@@ -1574,13 +1574,13 @@ Page {
                 visible: switchDiacritics.checked
 
                 Button {
-                    text: "Enable all"
+                    text: "Enable all\nDiacritics"
                     width: mainColumn.width/2
                     onClicked: remorsePopup.execute("Enable all Diacritics", function() { startTest.setDiacritics(true) }, 3000 )
                 }
 
                 Button {
-                    text: "Disable all"
+                    text: "Disable all\nDiacritics"
                     width: mainColumn.width/2
                     onClicked: remorsePopup.execute("Disable all Diacritics", function() { startTest.setDiacritics(false) }, 3000 )
                 }
@@ -1845,13 +1845,13 @@ Page {
                 visible: switchDigraphs.checked
 
                 Button {
-                    text: "Enable all"
+                    text: "Enable all\nDigraphs"
                     width: mainColumn.width/2
                     onClicked: remorsePopup.execute("Enable all Digraphs", function() { startTest.setDigraphs(true) }, 3000 )
                 }
 
                 Button {
-                    text: "Disable all"
+                    text: "Disable all\nDigraphs"
                     width: mainColumn.width/2
                     onClicked: remorsePopup.execute("Disable all Digraphs", function() { startTest.setDigraphs(false) }, 3000 )
                 }
@@ -2089,13 +2089,13 @@ Page {
                 visible: switchDigraphsDiacritics.checked
 
                 Button {
-                    text: "Enable all"
+                    text: "Enable all\nDigraphs w. D."
                     width: mainColumn.width/2
                     onClicked: remorsePopup.execute("Enable all Digraphs with Diacritics", function() { startTest.setDigraphsDiacritics(true) }, 3000 )
                 }
 
                 Button {
-                    text: "Disable all"
+                    text: "Disable all\nDigraphs w. D."
                     width: mainColumn.width/2
                     onClicked: remorsePopup.execute("Disable all Digraphs with Diacritics", function() { startTest.setDigraphsDiacritics(false) }, 3000 )
                 }
