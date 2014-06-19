@@ -135,7 +135,8 @@ OTHER_FILES += qml/harbour-hiragana.qml \
     qml/pages/Hiragana/a.png \
     LICENSE.txt \
     harbour-hiragana.png \
-    qml/cover/cover.png
+    qml/cover/cover.png \
+    qml/pages/UpperPanel.qml
 
 HEADERS += \
     src/listelement.h \
