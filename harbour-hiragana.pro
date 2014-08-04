@@ -137,7 +137,8 @@ OTHER_FILES += qml/harbour-hiragana.qml \
     harbour-hiragana.png \
     qml/cover/cover.png \
     qml/pages/UpperPanel.qml \
-    qml/pages/Settings.qml
+    qml/pages/Settings.qml \
+    qml/pages/TestFreeReverse.qml
 
 HEADERS += \
     src/listelement.h \
