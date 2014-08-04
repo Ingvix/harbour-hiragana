@@ -42,7 +42,7 @@ Page {
         property bool started: false
         property bool enableButton: true
         property bool first: true
-        property string picture: "Katakana/empty.png"
+        property string picture: "Hiragana/empty.png"
         property string valuecorrect: ""
         property int sumCorrect: save.getInt("FreeReversrTestCorrect")
         property int sumQuestions: save.getInt("FreeReverseTestQuestions")
@@ -173,7 +173,7 @@ Page {
                 }
                 Image {
                     id: target
-                    source: variable.started?"Katakana/empty.png":variable.picture
+                    source: variable.started?"Hiragana/empty.png":variable.picture
                 }
             }
 
@@ -212,7 +212,7 @@ Page {
                         antialiasing: true
 
                         onPaint: {
-                            if(!clearDrawing)
+                            if(!clearDrawing && mouseArea.containsMouse)
                             {
                                 var context = getContext('2d')
                                 context.lineJoin = "round"
@@ -239,9 +239,7 @@ Page {
                             onPressed: {test.backNavigation = false; test.canNavigateForward = false; flickable.interactive = false; hoverEnabled = true; drawnImage.positionX = mouseX; drawnImage.positionY = mouseY}
                             onReleased: {test.backNavigation = true; test.canNavigateForward = true; flickable.interactive = true; hoverEnabled = false}
                             onPositionChanged: {
-                                if(containsMouse) {
-                                    drawnImage.requestPaint()
-                                }
+                                drawnImage.requestPaint()
                             }
                         }
                     }
