@@ -10,6 +10,11 @@ TARGET = harbour-hiragana
 
 CONFIG += sailfishapp
 
+license.files = LICENSE.txt
+license.path = /usr/share/$${TARGET}
+
+INSTALLS += license
+
 SOURCES += src/harbour-hiragana.cpp \
     src/listelement.cpp \
     src/testclass.cpp \
