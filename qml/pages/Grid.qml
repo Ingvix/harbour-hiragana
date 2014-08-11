@@ -589,7 +589,12 @@ Page {
             }
 
             if (wo.checked) {
-                testclass.add("wo", "Hiragana/wo.png")
+                if(modus === 2) { // In free mode we only want to type in the transcription
+                    testclass.add(save.getBool("UseKunrei")?"o":"wo", "Hiragana/wo.png")
+                }
+                else {
+                    testclass.add(save.getBool("UseKunrei")?"o":"wo (W-Row)", "Hiragana/wo.png")
+                }
             }
 
             if (n.checked) {
@@ -1637,9 +1642,17 @@ Page {
                     width: parent.width / 5
                     text: "      "
                 }
-                Label{
+                Column {
                     width: parent.width / 5
-                    text: "     wo"
+
+                    Label{
+                        text: save.getBool("UseKunrei")?"     o":"     wo"
+                    }
+                    Label{
+                        font.pixelSize: Theme.fontSizeTiny
+                        color: Theme.secondaryColor
+                        text: save.getBool("UseKunrei")?"     W-Row":"     "
+                    }
                 }
 
                 // "n"
