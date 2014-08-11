@@ -593,7 +593,7 @@ Page {
                     testclass.add(save.getBool("UseKunrei")?"o":"wo", "Hiragana/wo.png")
                 }
                 else {
-                    testclass.add(save.getBool("UseKunrei")?"o":"wo (W-Row)", "Hiragana/wo.png")
+                    testclass.add(save.getBool("UseKunrei")?"o (W-Row)":"wo", "Hiragana/wo.png")
                 }
             }
 
