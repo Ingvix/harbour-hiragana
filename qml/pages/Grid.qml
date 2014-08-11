@@ -438,7 +438,7 @@ Page {
             }
 
             if (shi.checked) {
-                testclass.add("shi", "Hiragana/shi.png")
+                testclass.add(save.getBool("UseKunrei")?"si":"shi", "Hiragana/shi.png")
             }
 
             if (su.checked) {
@@ -461,11 +461,11 @@ Page {
             }
 
             if (chi.checked) {
-                testclass.add("chi", "Hiragana/chi.png")
+                testclass.add(save.getBool("UseKunrei")?"ti":"chi", "Hiragana/chi.png")
             }
 
             if (tsu.checked) {
-                testclass.add("tsu", "Hiragana/tsu.png")
+                testclass.add(save.getBool("UseKunrei")?"tu":"tsu", "Hiragana/tsu.png")
             }
 
             if (te.checked) {
@@ -510,7 +510,7 @@ Page {
             }
 
             if (fu.checked) {
-                testclass.add("fu", "Hiragana/fu.png")
+                testclass.add(save.getBool("UseKunrei")?"hu":"fu", "Hiragana/fu.png")
             }
 
             if (he.checked) {
@@ -629,10 +629,10 @@ Page {
 
             if (ji.checked) {
                 if(modus === 2) { // In free mode we only want to type in the transcription
-                    testclass.add("ji", "Hiragana/ji.png")
+                    testclass.add(save.getBool("UseKunrei")?"zi":"ji", "Hiragana/ji.png")
                 }
                 else {
-                    testclass.add("ji (Z-Row)", "Hiragana/ji.png")
+                    testclass.add(save.getBool("UseKunrei")?"zi":"ji (Z-Row)", "Hiragana/ji.png")
                 }
             }
 
@@ -657,10 +657,10 @@ Page {
 
             if (di.checked) {
                 if(modus === 2) { // In free mode we only want to type in the transcription
-                    testclass.add("ji", "Hiragana/di.png")
+                    testclass.add(save.getBool("UseKunrei")?"zi":"ji", "Hiragana/di.png")
                 }
                 else {
-                    testclass.add("ji (D-Row)", "Hiragana/di.png")
+                    testclass.add(save.getBool("UseKunrei")?"zi (D-Row)":"ji (D-Row)", "Hiragana/di.png")
                 }
             }
 
@@ -747,15 +747,15 @@ Page {
             // The "sha" line
 
             if (sha.checked) {
-                testclass.add("sha", "Hiragana/sha.png")
+                testclass.add(save.getBool("UseKunrei")?"sya":"sha", "Hiragana/sha.png")
             }
 
             if (shu.checked) {
-                testclass.add("shu", "Hiragana/shu.png")
+                testclass.add(save.getBool("UseKunrei")?"syu":"shu", "Hiragana/shu.png")
             }
 
             if (sho.checked) {
-                testclass.add("sho", "Hiragana/sho.png")
+                testclass.add(save.getBool("UseKunrei")?"syo":"sho", "Hiragana/sho.png")
             }
 
 
@@ -763,15 +763,15 @@ Page {
             // The "cha" line
 
             if (cha.checked) {
-                testclass.add("cha", "Hiragana/cha.png")
+                testclass.add(save.getBool("UseKunrei")?"tya":"cha", "Hiragana/cha.png")
             }
 
             if (chu.checked) {
-                testclass.add("chu", "Hiragana/chu.png")
+                testclass.add(save.getBool("UseKunrei")?"tyu":"chu", "Hiragana/chu.png")
             }
 
             if (cho.checked) {
-                testclass.add("cho", "Hiragana/cho.png")
+                testclass.add(save.getBool("UseKunrei")?"tyo":"cho", "Hiragana/cho.png")
             }
 
 
@@ -853,15 +853,15 @@ Page {
             // The "ja" line
 
             if (ja.checked) {
-                testclass.add("ja", "Hiragana/ja.png")
+                testclass.add(save.getBool("UseKunrei")?"zya":"ja", "Hiragana/ja.png")
             }
 
             if (ju.checked) {
-                testclass.add("ju", "Hiragana/ju.png")
+                testclass.add(save.getBool("UseKunrei")?"zyu":"ju", "Hiragana/ju.png")
             }
 
             if (jo.checked) {
-                testclass.add("jo", "Hiragana/jo.png")
+                testclass.add(save.getBool("UseKunrei")?"zyo":"jo", "Hiragana/jo.png")
             }
 
 
@@ -869,28 +869,28 @@ Page {
 
             if (dya.checked) {
                 if(modus === 2) { // In free mode we only want to type in the transcription
-                    testclass.add("ja", "Hiragana/dya.png")
+                    testclass.add(save.getBool("UseKunrei")?"zya":"ja", "Hiragana/dya.png")
                 }
                 else {
-                    testclass.add("ja (D-Row)", "Hiragana/dya.png")
+                    testclass.add(save.getBool("UseKunrei")?"zya (D-Row)":"ja (D-Row)", "Hiragana/dya.png")
                 }
             }
 
             if (dyu.checked) {
                 if(modus === 2) {
-                    testclass.add("ju", "Hiragana/dyu.png")
+                    testclass.add(save.getBool("UseKunrei")?"zyu":"ju", "Hiragana/dyu.png")
                 }
                 else {
-                    testclass.add("ju (D-Row)", "Hiragana/dyu.png")
+                    testclass.add(save.getBool("UseKunrei")?"zyu (D-Row)":"ju (D-Row)", "Hiragana/dyu.png")
                 }
             }
 
             if (dyo.checked) {
                 if(modus === 2) {
-                    testclass.add("jo", "Hiragana/dyo.png")
+                    testclass.add(save.getBool("UseKunrei")?"zyo":"jo", "Hiragana/dyo.png")
                 }
                 else {
-                    testclass.add("jo (D-Row)", "Hiragana/dyo.png")
+                    testclass.add(save.getBool("UseKunrei")?"zyo (D-Row)":"jo (D-Row)", "Hiragana/dyo.png")
                 }
             }
 
@@ -1233,7 +1233,7 @@ Page {
                 }
                 Label{
                     width: parent.width / 5
-                    text: "     shi"
+                    text: save.getBool("UseKunrei")?"     si":"     shi"
                 }
                 Label{
                     width: parent.width / 5
@@ -1292,11 +1292,11 @@ Page {
                 }
                 Label{
                     width: parent.width / 5
-                    text: "     chi"
+                    text: save.getBool("UseKunrei")?"     ti":"     chi"
                 }
                 Label{
                     width: parent.width / 5
-                    text: "     tsu"
+                    text: save.getBool("UseKunrei")?"     tu":"     tsu"
                 }
                 Label{
                     width: parent.width / 5
@@ -1413,7 +1413,7 @@ Page {
                 }
                 Label{
                     width: parent.width / 5
-                    text: "     fu"
+                    text: save.getBool("UseKunrei")?"     hu":"     fu"
                 }
                 Label{
                     width: parent.width / 5
@@ -1823,12 +1823,12 @@ Page {
                     width: parent.width / 5
 
                     Label{
-                        text: "     ji"
+                        text: save.getBool("UseKunrei")?"     zi":"     ji"
                     }
                     Label{
                         font.pixelSize: Theme.fontSizeTiny
                         color: Theme.secondaryColor
-                        text: "     Z-Row"
+                        text: save.getBool("UseKunrei")?"     ":"     Z-Row"
                     }
                 }
                 Label{
@@ -1890,7 +1890,7 @@ Page {
                     width: parent.width / 5
 
                     Label{
-                        text: "     ji"
+                        text: save.getBool("UseKunrei")?"     zi":"     ji"
                     }
                     Label{
                         font.pixelSize: Theme.fontSizeTiny
@@ -2130,15 +2130,15 @@ Page {
                 }
                 Label{
                     width: parent.width / 3
-                    text: "         sha"
+                    text: save.getBool("UseKunrei")?"         sya":"         sha"
                 }
                 Label{
                     width: parent.width / 3
-                    text: "         shu"
+                    text: save.getBool("UseKunrei")?"         syu":"         shu"
                 }
                 Label{
                     width: parent.width / 3
-                    text: "         sho"
+                    text: save.getBool("UseKunrei")?"         syo":"         sho"
                 }
 
 
@@ -2167,15 +2167,15 @@ Page {
                 }
                 Label{
                     width: parent.width / 3
-                    text: "         cha"
+                    text: save.getBool("UseKunrei")?"         tya":"         cha"
                 }
                 Label{
                     width: parent.width / 3
-                    text: "         chu"
+                    text: save.getBool("UseKunrei")?"         tyu":"         chu"
                 }
                 Label{
                     width: parent.width / 3
-                    text: "         cho"
+                    text: save.getBool("UseKunrei")?"         tyo":"         cho"
                 }
 
 
@@ -2420,15 +2420,15 @@ Page {
                 }
                 Label{
                     width: parent.width / 3
-                    text: "         ja"
+                    text: save.getBool("UseKunrei")?"         zya":"         ja"
                 }
                 Label{
                     width: parent.width / 3
-                    text: "         ju"
+                    text: save.getBool("UseKunrei")?"         zyu":"         ju"
                 }
                 Label{
                     width: parent.width / 3
-                    text: "         jo"
+                    text: save.getBool("UseKunrei")?"         zyo":"         jo"
                 }
 
                 // The "dya" line
@@ -2458,7 +2458,7 @@ Page {
                     width: parent.width / 5
 
                     Label{
-                        text: "         ja"
+                        text: save.getBool("UseKunrei")?"         zya":"         ja"
                     }
                     Label{
                         font.pixelSize: Theme.fontSizeTiny
@@ -2470,7 +2470,7 @@ Page {
                     width: parent.width / 5
 
                     Label{
-                        text: "         ju"
+                        text: save.getBool("UseKunrei")?"         zyu":"         ju"
                     }
                     Label{
                         font.pixelSize: Theme.fontSizeTiny
@@ -2482,7 +2482,7 @@ Page {
                     width: parent.width / 5
 
                     Label{
-                        text: "         jo"
+                        text: save.getBool("UseKunrei")?"         zyo":"         jo"
                     }
                     Label{
                         font.pixelSize: Theme.fontSizeTiny
