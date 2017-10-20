@@ -40,21 +40,21 @@ class Testclass : public QObject
 public:
     explicit Testclass(QObject *parent = 0);
     Q_INVOKABLE void initialise();
-    Q_INVOKABLE void add(QString name, QString path);
+    Q_INVOKABLE void add(QString romaji, QString symbol);
     Q_INVOKABLE void newQuestion();
-    Q_INVOKABLE QString picture();
+    Q_INVOKABLE QString hiragana();
     Q_INVOKABLE QString one();
     Q_INVOKABLE QString two();
     Q_INVOKABLE QString three();
     Q_INVOKABLE QString four();
     Q_INVOKABLE QString five();
     Q_INVOKABLE QString six();
-    Q_INVOKABLE QString one_picture();
-    Q_INVOKABLE QString two_picture();
-    Q_INVOKABLE QString three_picture();
-    Q_INVOKABLE QString four_picture();
-    Q_INVOKABLE QString five_picture();
-    Q_INVOKABLE QString six_picture();
+    Q_INVOKABLE QString one_hiragana();
+    Q_INVOKABLE QString two_hiragana();
+    Q_INVOKABLE QString three_hiragana();
+    Q_INVOKABLE QString four_hiragana();
+    Q_INVOKABLE QString five_hiragana();
+    Q_INVOKABLE QString six_hiragana();
     Q_INVOKABLE int correct();
     Q_INVOKABLE bool testPossible();
     Q_INVOKABLE QString valuecorrect();
@@ -67,24 +67,24 @@ public slots:
 
 private:
     QList<ListElement> elementlist;
-    QString _picture;
+    QString _hiragana;
     QString _one;
     QString _two;
     QString _three;
     QString _four;
     QString _five;
     QString _six;
-    QString _one_picture;
-    QString _two_picture;
-    QString _three_picture;
-    QString _four_picture;
-    QString _five_picture;
-    QString _six_picture;
+    QString _one_hiragana;
+    QString _two_hiragana;
+    QString _three_hiragana;
+    QString _four_hiragana;
+    QString _five_hiragana;
+    QString _six_hiragana;
     int _correct;
     int _question;
     QString _valuecorrect;
     QString _lastCorrect;
-    QString _lastPicture;
+    QString _lastHiragana;
 
 };
 

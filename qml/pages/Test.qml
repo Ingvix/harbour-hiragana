@@ -28,7 +28,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-import QtQuick 2.0
+import QtQuick 2.5
 import Sailfish.Silica 1.0
 
 Page {
@@ -38,18 +38,10 @@ Page {
         id: variable
         property int questions: 0
         property int correct: 0
-        property int rightanswer: 0
-        property bool started: false
-        property bool enableButton: true
-        property bool first: true
-        property string picture: "Hiragana/empty.png"
-        property string valueone: "one"
-        property string valuetwo: "two"
-        property string valuethree: "three"
-        property string valuefour: "four"
-        property string valuefive: "five"
-        property string valuesix: "six"
-        property string valuecorrect: ""
+        property int rightanswer: testclass.correct()
+        property bool answered: false
+        property string hiragana: testclass.hiragana()
+        property var valueArray: [testclass.one(), testclass.two(), testclass.three(), testclass.four(), testclass.five(), testclass.six()]
         property int sumCorrect: save.getInt("TestCorrect")
         property int sumQuestions: save.getInt("TestQuestions")
     }
@@ -57,244 +49,216 @@ Page {
     Item {
         id: handleQuestions
 
-        function start(){
-            if(!variable.started)
-            {
-                variable.started = true
-                variable.enableButton = false
-                variable.first = false
-                testclass.newQuestion()
-                variable.picture = testclass.picture()
-                variable.rightanswer = testclass.correct()
-                variable.valueone = testclass.one()
-                variable.valuetwo = testclass.two()
-                variable.valuethree = testclass.three()
-                variable.valuefour = testclass.four()
-                variable.valuefive = testclass.five()
-                variable.valuesix = testclass.six()
-                variable.valuecorrect = testclass.valuecorrect()
-            }
-
-        }
-
-        function onePressed(){
-            end(1)
-        }
-
-        function twoPressed(){
-            end(2)
-        }
-
-        function threePressed(){
-            end(3)
-        }
-
-        function fourPressed(){
-            end(4)
-        }
-
-        function fivePressed(){
-            end(5)
-        }
-
-        function sixPressed(){
-            end(6)
+        function next(){
+            holder.enabled = false
+            variable.answered = false
+            testclass.newQuestion()
+            variable.hiragana = testclass.hiragana()
+            variable.rightanswer = testclass.correct()
+            variable.valueArray = [testclass.one(), testclass.two(), testclass.three(), testclass.four(), testclass.five(), testclass.six()]
         }
 
         function end(i){
             variable.questions++
             variable.sumQuestions++
-            var correct = false
             if(i === variable.rightanswer)
             {
                 variable.correct++
                 variable.sumCorrect++
-                correct = true
             }
             save.saveInt("TestQuestions",variable.sumQuestions)
             save.saveInt("TestCorrect",variable.sumCorrect)
-            variable.started = false
-            if(correct)
-            {
-                if(save.getBool("CorrectDisabled"))
-                {
-                    if(save.getBool("NextAfterCorrect"))
-                    {
-                        handleQuestions.start()
-                    }
-                    else
-                    {
-                        variable.enableButton = true
-                    }
-                }
-                else
-                {
-                    correctPanel.show()
-                }
-            }
-            else
-            {
-                if(save.getBool("WrongDisabled"))
-                {
-                    variable.enableButton = true
-                }
-                else
-                {
-                    falsePanel.show()
-                }
-            }
+            variable.answered = true
         }
     }
 
     SilicaFlickable {
-
-        PullDownMenu {
-            visible: false
-        }
-
         anchors.fill: parent
 
         contentHeight: mainColumn.height
 
+        PageHeader {
+            id: header
+            title: "Test"
+        }
+
         Column {
             id: mainColumn
+            spacing: Theme.paddingLarge
 
             anchors {
+                top: header.bottom
                 left: parent.left
                 right: parent.right
-                margins: Theme.paddingLarge
+                leftMargin: Theme.paddingLarge
+                rightMargin: Theme.paddingLarge
             }
 
-            PageHeader {
-                title: "Test"
-            }
+            Stats {}
 
-            Row {
-                Label {
-                    text: "Questions: " + variable.questions + "   "
-                }
+            Label {
+                id: target
+                text: variable.hiragana
+                font.pixelSize: Theme.fontSizeHuge
+                anchors.horizontalCenter: parent.horizontalCenter
 
-                Label {
-                    text: "Correct: " + variable.correct + "   "
+                onTextChanged: {
+                    targetBehavior.enabled = false
+                    scale = 1.2
+                    targetBehavior.enabled = true
+                    scale = 1
                 }
-
-                Label{
-                    text: "Ratio: " + (variable.questions === 0?0:(Math.round(100.0/variable.questions*variable.correct))) + "%"
-                }
-            }
-
-            Row {
-                Label {
-                    text: "Overall Questions: " + variable.sumQuestions + "   "
-                    font.pixelSize: Theme.fontSizeTiny
-                }
-
-                Label {
-                    text: "Overall Correct: " + variable.sumCorrect + "   "
-                    font.pixelSize: Theme.fontSizeTiny
-                }
-
-                Label{
-                    text: "Ratio: " + (variable.sumQuestions === 0?0:(Math.round(100.0/variable.sumQuestions*variable.sumCorrect))) + "%"
-                    font.pixelSize: Theme.fontSizeTiny
-                }
-            }
-
-            Row {
-                x: parent.width/2 - (target.width + target2.width)/2
-                Image {
-                    id: target
-                    source: variable.picture
-                }
-                Label {
-                    id: target2
-                    visible: !variable.started
-                    text: variable.valuecorrect
-                    font.pixelSize: Theme.fontSizeHuge
+                Behavior on scale {
+                    id: targetBehavior
+                    enabled: false
+                    NumberAnimation {duration: 300; easing.type: Easing.OutQuart}
                 }
             }
 
             Grid {
                 columns: 2
+                spacing: Theme.paddingLarge
 
-                Button {
-                    id: one
-                    enabled: variable.started
-                    text: variable.valueone
-                    width:  mainColumn.width / 2
-                    onClicked: handleQuestions.onePressed()
-                }
+                Repeater {
+                    model: 6
+                    Button {
+                        property bool answered: variable.answered
+                        property bool isCorrectButton: (index + 1 === variable.rightanswer)
+                        property color afterAnswerColor: Theme.primaryColor
 
-                Button {
-                    id: two
-                    enabled: variable.started
-                    text: variable.valuetwo
-                    width:  mainColumn.width / 2
-                    onClicked: handleQuestions.twoPressed()
-                }
+                        id: answerButton
+                        onAnsweredChanged: {
+                            if (answered) {
+                                if (index + 1 === variable.rightanswer) {
+                                    colorBehavior.enabled = true
+                                    color = Qt.binding(function() {return colorChangeTimer.color})
+                                    colorChangeTimer.start()
+                                }
+                            }
+                            else {
+                                colorBehavior.enabled = false
+                                color = Theme.primaryColor
+                                colorChangeTimer.stop()
+                                afterAnswerColor = Theme.primaryColor
+                                enabled = Qt.binding(function() {return color !== Theme.primaryColor ? true : !answered})
+                                sizeBehavior.enabled = false
+                                scale = 1.085
+                                sizeBehavior.enabled = true
+                                scale = 1
+                            }
+                        }
+                        enabled: color !== Theme.primaryColor ? true : !answered
+                        text: variable.valueArray[index]
 
-                Button {
-                    id: three
-                    enabled: variable.started
-                    text: variable.valuethree
-                    width:  mainColumn.width / 2
-                    onClicked: handleQuestions.threePressed()
-                }
+                        Behavior on scale {
+                            id: sizeBehavior
+                            enabled: false
+                            NumberAnimation {duration: 300; easing.type: Easing.OutQuart}
+                        }
 
-                Button {
-                    id: four
-                    enabled: variable.started
-                    text: variable.valuefour
-                    width:  mainColumn.width / 2
-                    onClicked: handleQuestions.fourPressed()
-                }
+                        color: Theme.primaryColor
+                        onColorChanged: {
+                            if (!colorBehavior.enabled) {
+                                sizeBehavior.enabled = false
+                                scale = 1.085
+                                sizeBehavior.enabled = true
+                                scale = 1
+                            }
+                        }
 
-                Button {
-                    id: five
-                    enabled: variable.started
-                    text: variable.valuefive
-                    width:  mainColumn.width / 2
-                    onClicked: handleQuestions.fivePressed()
-                }
+                        Behavior on color {
+                            id: colorBehavior
+                            ColorAnimation {duration: 200; easing.type: Easing.InOutQuad}
+                        }
 
+                        onClicked: {
+                            if (!colorChangeTimer.running && color === Theme.primaryColor) {
+                                if (index + 1 !== variable.rightanswer) {
+                                    afterAnswerColor = "red"
+                                    holder.text = "Wrong!"
+                                    nextArea.failAnimationRunning = true
+                                }
+                                else {
+                                    afterAnswerColor = "lawngreen"
+                                    holder.text = "Correct!"
+                                }
+                                colorBehavior.enabled = true
+                                handleQuestions.end(index + 1)
+                                color = Qt.binding(function() {return colorChangeTimer.color})
+                                colorChangeTimer.start()
+                                enabled = colorChangeTimer.running || color !== Theme.primaryColor
+                            }
+                        }
 
-                Button {
-                    id: six
-                    enabled: variable.started
-                    text: variable.valuesix
-                    width:  mainColumn.width / 2
-                    onClicked: handleQuestions.sixPressed()
+                        Timer {
+                            property color color: Theme.primaryColor
+                            property int loops: 0
+                            id: colorChangeTimer
+                            interval: 300
+                            repeat: true
+                            onRunningChanged: {
+                                color = parent.afterAnswerColor
+                                if (!running) {
+                                    nextArea.failAnimationRunning = false
+                                    loops = 0
+                                }
+                                else if (save.getBool("LabelsEnabled"))holder.enabled = true
+                            }
+
+                            onTriggered: {
+                                color = color === Theme.primaryColor ? parent.afterAnswerColor : Theme.primaryColor
+                                loops++
+                                if (parent.isCorrectButton && Qt.colorEqual(parent.afterAnswerColor, "lawngreen")) {
+                                    if (loops === 5) {
+                                        holder.enabled = false
+                                    }
+                                    if (loops === 6) {
+                                        if (save.getBool("NextAfterCorrect")) {
+                                            colorBehavior.enabled = false
+                                            handleQuestions.next()
+                                        }
+                                        else {
+                                            holder.text = "Tap anywhere for next question"
+                                            holder.enabled = true
+                                        }
+                                        stop()
+                                    }
+                                }
+                                else {
+                                    if (loops === 6) {
+                                        holder.enabled = false
+                                    }
+                                    if (loops === 7) {
+                                        if (parent.isCorrectButton && !Qt.colorEqual(parent.afterAnswerColor, "lawngreen")) {
+                                            colorBehavior.enabled = false
+                                            parent.color = "lawngreen"
+                                            holder.text = "Tap anywhere for next question"
+                                            holder.enabled = true
+                                        }
+                                        stop()
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
+        }
 
-            Separator {
-                width: parent.width
-                color: Theme.secondaryColor
-            }
-
-            Button {
-                id: newQuestion
-                width: parent.width
-                enabled: variable.enableButton
-                text: variable.first?"Start":"Continue"
-                onClicked: handleQuestions.start()
+        ViewPlaceholder {
+            id: holder
+            enabled: false
+            anchors {
+                top: mainColumn.bottom
+                topMargin: Theme.paddingLarge
             }
         }
     }
-
-    UpperPanel {
-        id: correctPanel
-        time: save.getInt("TimeCorrect") === 0 ? 2000: save.getInt("TimeCorrect")
-        color: "green"
-        text: "Correct"
-        onTriggered: save.getBool("NextAfterCorrect")? handleQuestions.start() : variable.enableButton = true
-    }
-
-    UpperPanel {
-        id: falsePanel
-        time: save.getInt("TimeWrong") === 0 ? 2000 : save.getInt("TimeWrong")
-        color: "red"
-        text: "Wrong"
-        onTriggered: variable.enableButton = true
+    MouseArea {
+        property bool failAnimationRunning
+        id: nextArea
+        enabled: variable.answered
+        anchors.fill: parent
+        onClicked: if (!failAnimationRunning) handleQuestions.next()
     }
 }

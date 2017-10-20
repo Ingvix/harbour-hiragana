@@ -41,14 +41,14 @@ void Testclass::initialise()
     elementlist.clear();
     _question = 0;
     _lastCorrect = "";
-    _lastPicture = "";
+    _lastHiragana = "";
 }
 
-void Testclass::add(QString name, QString path)
+void Testclass::add(QString romaji, QString hiragana)
 {
     ListElement e;
-    e.Name = name;
-    e.ImagePath = path;
+    e.Romaji = romaji;
+    e.Hiragana = hiragana;
     e.Question = 0;
 
     elementlist.append(e);
@@ -75,29 +75,29 @@ void Testclass::newQuestion()
                 switch(i)
                 {
                 case 1:
-                    _one = e.Name;
-                    _one_picture = e.ImagePath;
+                    _one = e.Romaji;
+                    _one_hiragana = e.Hiragana;
                     break;
                 case 2:
-                    _two = e.Name;
-                    _two_picture = e.ImagePath;
+                    _two = e.Romaji;
+                    _two_hiragana = e.Hiragana;
                     break;
                 case 3:
-                    _three = e.Name;
-                    _three_picture = e.ImagePath;
+                    _three = e.Romaji;
+                    _three_hiragana = e.Hiragana;
                     break;
                 case 4:
-                    _four = e.Name;
-                    _four_picture = e.ImagePath;
+                    _four = e.Romaji;
+                    _four_hiragana = e.Hiragana;
                     _valuecorrect = _four;
                     break;
                 case 5:
-                    _five = e.Name;
-                    _five_picture = e.ImagePath;
+                    _five = e.Romaji;
+                    _five_hiragana = e.Hiragana;
                     break;
                 case 6:
-                    _six = e.Name;
-                    _six_picture = e.ImagePath;
+                    _six = e.Romaji;
+                    _six_hiragana = e.Hiragana;
                     break;
                 default:
                     throw "Something went terribly wrong!";
@@ -115,61 +115,61 @@ void Testclass::newQuestion()
         switch(_correct)
         {
         case 1:
-            if(_one != _lastCorrect && _one_picture != _lastPicture)
+            if(_one != _lastCorrect && _one_hiragana != _lastHiragana)
             {
-                _picture = _one_picture;
+                _hiragana = _one_hiragana;
                 _valuecorrect = _one;
-                _lastPicture = _one_picture;
+                _lastHiragana = _one_hiragana;
                 _lastCorrect = _one;
                 test = false;
             }
             break;
         case 2:
-            if(_two != _lastCorrect && _two_picture != _lastPicture)
+            if(_two != _lastCorrect && _two_hiragana != _lastHiragana)
             {
-                _picture = _two_picture;
+                _hiragana = _two_hiragana;
                 _valuecorrect = _two;
-                _lastPicture = _two_picture;
+                _lastHiragana = _two_hiragana;
                 _lastCorrect = _two;
                 test = false;
             }
             break;
         case 3:
-            if(_three != _lastCorrect && _three_picture != _lastPicture)
+            if(_three != _lastCorrect && _three_hiragana != _lastHiragana)
             {
-                _picture = _three_picture;
+                _hiragana = _three_hiragana;
                 _valuecorrect = _three;
-                _lastPicture = _three_picture;
+                _lastHiragana = _three_hiragana;
                 _lastCorrect = _three;
                 test = false;
             }
             break;
         case 4:
-            if(_four != _lastCorrect && _four_picture != _lastPicture)
+            if(_four != _lastCorrect && _four_hiragana != _lastHiragana)
             {
-                _picture = _four_picture;
+                _hiragana = _four_hiragana;
                 _valuecorrect = _four;
-                _lastPicture = _four_picture;
+                _lastHiragana = _four_hiragana;
                 _lastCorrect = _four;
                 test = false;
             }
             break;
         case 5:
-            if(_five != _lastCorrect && _five_picture != _lastPicture)
+            if(_five != _lastCorrect && _five_hiragana != _lastHiragana)
             {
-                _picture = _five_picture;
+                _hiragana = _five_hiragana;
                 _valuecorrect = _five;
-                _lastPicture = _five_picture;
+                _lastHiragana = _five_hiragana;
                 _lastCorrect = _five;
                 test = false;
             }
             break;
         case 6:
-            if(_six != _lastCorrect && _six_picture != _lastPicture)
+            if(_six != _lastCorrect && _six_hiragana != _lastHiragana)
             {
-                _picture = _six_picture;
+                _hiragana = _six_hiragana;
                 _valuecorrect = _six;
-                _lastPicture = _six_picture;
+                _lastHiragana = _six_hiragana;
                 _lastCorrect = _six;
                 test = false;
             }
@@ -180,9 +180,9 @@ void Testclass::newQuestion()
     }while(test);
 }
 
-QString Testclass::picture()
+QString Testclass::hiragana()
 {
-    return _picture;
+    return _hiragana;
 }
 
 QString Testclass::one()
@@ -230,34 +230,34 @@ QString Testclass::valuecorrect()
     return _valuecorrect;
 }
 
-QString Testclass::one_picture()
+QString Testclass::one_hiragana()
 {
-    return _one_picture;
+    return _one_hiragana;
 }
 
-QString Testclass::two_picture()
+QString Testclass::two_hiragana()
 {
-    return _two_picture;
+    return _two_hiragana;
 }
 
-QString Testclass::three_picture()
+QString Testclass::three_hiragana()
 {
-    return _three_picture;
+    return _three_hiragana;
 }
 
-QString Testclass::four_picture()
+QString Testclass::four_hiragana()
 {
-    return _four_picture;
+    return _four_hiragana;
 }
 
-QString Testclass::five_picture()
+QString Testclass::five_hiragana()
 {
-    return _five_picture;
+    return _five_hiragana;
 }
 
-QString Testclass::six_picture()
+QString Testclass::six_hiragana()
 {
-    return _six_picture;
+    return _six_hiragana;
 }
 
 QString Testclass::toLower(QString s)

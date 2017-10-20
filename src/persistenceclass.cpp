@@ -133,9 +133,8 @@ PersistenceClass::~PersistenceClass()
     saveNow();
 }
 
-void PersistenceClass::clear()
+void PersistenceClass::clearStats()
 {
-    _hash.clear();
     _intHash.clear();
     _hasChanged = true;
 }

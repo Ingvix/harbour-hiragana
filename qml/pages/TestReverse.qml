@@ -38,18 +38,17 @@ Page {
         id: variable
         property int questions: 0
         property int correct: 0
-        property int rightanswer: 0
-        property bool started: false
-        property bool enableButton: true
-        property bool first: true
-        property string picture: "Hiragana/empty.png"
-        property string valueone: "Hiragana/empty.png"
-        property string valuetwo: "Hiragana/empty.png"
-        property string valuethree: "Hiragana/empty.png"
-        property string valuefour: "Hiragana/empty.png"
-        property string valuefive: "Hiragana/empty.png"
-        property string valuesix: "Hiragana/empty.png"
-        property string valuecorrect: ""
+        property int rightanswer: testclass.correct()
+        property bool answered: false
+        property var valueArray: [
+            testclass.one_hiragana(),
+            testclass.two_hiragana(),
+            testclass.three_hiragana(),
+            testclass.four_hiragana(),
+            testclass.five_hiragana(),
+            testclass.six_hiragana()
+        ]
+        property string valuecorrect: testclass.valuecorrect()
         property int sumCorrect: save.getInt("ReverseTestCorrect")
         property int sumQuestions: save.getInt("ReverseTestQuestions")
     }
@@ -57,250 +56,223 @@ Page {
     Item {
         id: handleQuestions
 
-        function start(){
-            if(!variable.started)
-            {
-                variable.started = true
-                variable.enableButton = false
-                variable.first = false
-                testclass.newQuestion()
-                variable.picture = testclass.picture()
-                variable.rightanswer = testclass.correct()
-                variable.valueone = testclass.one_picture()
-                variable.valuetwo = testclass.two_picture()
-                variable.valuethree = testclass.three_picture()
-                variable.valuefour = testclass.four_picture()
-                variable.valuefive = testclass.five_picture()
-                variable.valuesix = testclass.six_picture()
-                variable.valuecorrect = testclass.valuecorrect()
-            }
-
-        }
-
-        function onePressed(){
-            end(1)
-        }
-
-        function twoPressed(){
-            end(2)
-        }
-
-        function threePressed(){
-            end(3)
-        }
-
-        function fourPressed(){
-            end(4)
-        }
-
-        function fivePressed(){
-            end(5)
-        }
-
-        function sixPressed(){
-            end(6)
+        function next(){
+            holder.enabled = false
+            variable.answered = false
+            testclass.newQuestion()
+            variable.valuecorrect = testclass.valuecorrect()
+            variable.rightanswer = testclass.correct()
+            variable.valueArray = [
+                        testclass.one_hiragana(),
+                        testclass.two_hiragana(),
+                        testclass.three_hiragana(),
+                        testclass.four_hiragana(),
+                        testclass.five_hiragana(),
+                        testclass.six_hiragana()
+                    ]
         }
 
         function end(i){
             variable.questions++
             variable.sumQuestions++
-            var correct = false
             if(i === variable.rightanswer)
             {
                 variable.correct++
                 variable.sumCorrect++
-                correct = true
             }
             save.saveInt("ReverseTestQuestions",variable.sumQuestions)
             save.saveInt("ReverseTestCorrect",variable.sumCorrect)
-            variable.started = false
-            if(correct)
-            {
-                if(save.getBool("CorrectDisabled"))
-                {
-                    if(save.getBool("NextAfterCorrect"))
-                    {
-                        handleQuestions.start()
-                    }
-                    else
-                    {
-                        variable.enableButton = true
-                    }
-                }
-                else
-                {
-                    correctPanel.show()
-                }
-            }
-            else
-            {
-                if(save.getBool("WrongDisabled"))
-                {
-                    variable.enableButton = true
-                }
-                else
-                {
-                    falsePanel.show()
-                }
-            }
+            variable.answered = true
         }
     }
 
     SilicaFlickable {
-
-        PullDownMenu {
-            visible: false
-        }
-
         anchors.fill: parent
 
         contentHeight: mainColumn.height
 
+        PageHeader {
+            id: header
+            title: "Reverse Test"
+        }
+
         Column {
             id: mainColumn
+            spacing: Theme.paddingLarge
 
             anchors {
+                top: header.bottom
                 left: parent.left
                 right: parent.right
-                margins: Theme.paddingLarge
+                leftMargin: Theme.paddingLarge
+                rightMargin: Theme.paddingLarge
             }
 
-            PageHeader {
-                title: "Reverse Test"
-            }
+            Stats {}
 
-            Row {
-                Label {
-                    text: "Questions: " + variable.questions + "   "
-                }
+            Label {
+                id: target
+                text: variable.valuecorrect
+                font.pixelSize: Theme.fontSizeHuge
+                anchors.horizontalCenter: parent.horizontalCenter
 
-                Label {
-                    text: "Correct: " + variable.correct + "   "
+                onTextChanged: {
+                    targetBehavior.enabled = false
+                    scale = 1.2
+                    targetBehavior.enabled = true
+                    scale = 1
                 }
-
-                Label{
-                    text: "Ratio: " + (variable.questions === 0?0:(Math.round(100.0/variable.questions*variable.correct))) + "%"
-                }
-            }
-
-            Row {
-                Label {
-                    text: "Overall Questions: " + variable.sumQuestions + "   "
-                    font.pixelSize: Theme.fontSizeTiny
-                }
-
-                Label {
-                    text: "Overall Correct: " + variable.sumCorrect + "   "
-                    font.pixelSize: Theme.fontSizeTiny
-                }
-
-                Label{
-                    text: "Ratio: " + (variable.sumQuestions === 0?0:(Math.round(100.0/variable.sumQuestions*variable.sumCorrect))) + "%"
-                    font.pixelSize: Theme.fontSizeTiny
-                }
-            }
-
-            Row {
-                x: parent.width/2 - (target.width + target2.width)/2
-                Label {
-                    id: target2
-                    text: variable.valuecorrect
-                    font.pixelSize: Theme.fontSizeHuge
-                }
-                Image {
-                    id: target
-                    source: variable.started?"Hiragana/empty.png":variable.picture
+                Behavior on scale {
+                    id: targetBehavior
+                    enabled: false
+                    NumberAnimation {duration: 300; easing.type: Easing.OutQuart}
                 }
             }
 
             Grid {
                 columns: 2
+                spacing: Theme.paddingLarge
 
-                IconButton {
-                    id: one
-                    enabled: variable.started
-                    icon.source: variable.valueone
-                    onClicked: handleQuestions.onePressed()
-                    width:  mainColumn.width / 2
-                    height: 150
-                }
+                Repeater {
+                    model: 6
+                    Button {
+                        property bool answered: variable.answered
+                        property bool isCorrectButton: (index + 1 === variable.rightanswer)
+                        property color afterAnswerColor: Theme.primaryColor
 
-                IconButton {
-                    id: two
-                    enabled: variable.started
-                    icon.source: variable.valuetwo
-                    onClicked: handleQuestions.twoPressed()
-                    width:  mainColumn.width / 2
-                    height: 150
-                }
+                        id: answerButton
+                        onAnsweredChanged: {
+                            if (answered) {
+                                if (index + 1 === variable.rightanswer) {
+                                    colorBehavior.enabled = true
+                                    color = Qt.binding(function() {return colorChangeTimer.color})
+                                    colorChangeTimer.start()
+                                }
+                            }
+                            else {
+                                colorBehavior.enabled = false
+                                color = Theme.primaryColor
+                                colorChangeTimer.stop()
+                                afterAnswerColor = Theme.primaryColor
+                                enabled = Qt.binding(function() {return color !== Theme.primaryColor ? true : !answered})
+                                sizeBehavior.enabled = false
+                                scale = 1.085
+                                sizeBehavior.enabled = true
+                                scale = 1
+                            }
+                        }
+                        enabled: color !== Theme.primaryColor ? true : !answered
+                        text: variable.valueArray[index]
 
-                IconButton {
-                    id: three
-                    enabled: variable.started
-                    icon.source: variable.valuethree
-                    onClicked: handleQuestions.threePressed()
-                    width:  mainColumn.width / 2
-                    height: 150
-                }
+                        Behavior on scale {
+                            id: sizeBehavior
+                            enabled: false
+                            NumberAnimation {duration: 300; easing.type: Easing.OutQuart}
+                        }
 
-                IconButton {
-                    id: four
-                    enabled: variable.started
-                    icon.source: variable.valuefour
-                    onClicked: handleQuestions.fourPressed()
-                    width:  mainColumn.width / 2
-                    height: 150
-                }
+                        color: Theme.primaryColor
+                        onColorChanged: {
+                            if (!colorBehavior.enabled) {
+                                sizeBehavior.enabled = false
+                                scale = 1.085
+                                sizeBehavior.enabled = true
+                                scale = 1
+                            }
+                        }
 
-                IconButton {
-                    id: five
-                    enabled: variable.started
-                    icon.source: variable.valuefive
-                    onClicked: handleQuestions.fivePressed()
-                    width:  mainColumn.width / 2
-                    height: 150
-                }
+                        Behavior on color {
+                            id: colorBehavior
+                            ColorAnimation {duration: 200; easing.type: Easing.InOutQuad}
+                        }
 
+                        onClicked: {
+                            if (!colorChangeTimer.running && color === Theme.primaryColor) {
+                                if (index + 1 !== variable.rightanswer) {
+                                    afterAnswerColor = "red"
+                                    holder.text = "Wrong!"
+                                    nextArea.failAnimationRunning = true
+                                }
+                                else {
+                                    afterAnswerColor = "lawngreen"
+                                    holder.text = "Correct!"
+                                }
+                                colorBehavior.enabled = true
+                                handleQuestions.end(index + 1)
+                                color = Qt.binding(function() {return colorChangeTimer.color})
+                                colorChangeTimer.start()
+                                enabled = colorChangeTimer.running || color !== Theme.primaryColor
+                            }
+                        }
 
-                IconButton {
-                    id: six
-                    enabled: variable.started
-                    icon.source: variable.valuesix
-                    onClicked: handleQuestions.sixPressed()
-                    width:  mainColumn.width / 2
-                    height: 150
+                        Timer {
+                            property color color: Theme.primaryColor
+                            property int loops: 0
+                            id: colorChangeTimer
+                            interval: 300
+                            repeat: true
+                            onRunningChanged: {
+                                color = parent.afterAnswerColor
+                                if (!running) {
+                                    nextArea.failAnimationRunning = false
+                                    loops = 0
+                                }
+                                else if (save.getBool("LabelsEnabled"))holder.enabled = true
+                            }
+
+                            onTriggered: {
+                                color = color === Theme.primaryColor ? parent.afterAnswerColor : Theme.primaryColor
+                                loops++
+                                if (parent.isCorrectButton && Qt.colorEqual(parent.afterAnswerColor, "lawngreen")) {
+                                    if (loops === 5) {
+                                        holder.enabled = false
+                                    }
+                                    if (loops === 6) {
+                                        if (save.getBool("NextAfterCorrect")) {
+                                            colorBehavior.enabled = false
+                                            handleQuestions.next()
+                                        }
+                                        else {
+                                            holder.text = "Tap anywhere for next question"
+                                            holder.enabled = true
+                                        }
+                                        stop()
+                                    }
+                                }
+                                else {
+                                    if (loops === 6) {
+                                        holder.enabled = false
+                                    }
+                                    if (loops === 7) {
+                                        if (parent.isCorrectButton && !Qt.colorEqual(parent.afterAnswerColor, "lawngreen")) {
+                                            colorBehavior.enabled = false
+                                            parent.color = "lawngreen"
+                                            holder.text = "Tap anywhere for next question"
+                                            holder.enabled = true
+                                        }
+                                        stop()
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
+        }
 
-            Separator {
-                width: parent.width
-                color: Theme.secondaryColor
-            }
-
-            Button {
-                id: newQuestion
-                width: parent.width
-                enabled: variable.enableButton
-                text: variable.first?"Start":"Continue"
-                onClicked: handleQuestions.start()
+        ViewPlaceholder {
+            id: holder
+            enabled: false
+            anchors {
+                top: mainColumn.bottom
+                topMargin: Theme.paddingLarge
             }
         }
     }
-
-    UpperPanel {
-        id: correctPanel
-        time: save.getInt("TimeCorrect") === 0 ? 2000: save.getInt("TimeCorrect")
-        color: "green"
-        text: "Correct"
-        onTriggered: save.getBool("NextAfterCorrect")? handleQuestions.start() : variable.enableButton = true
-    }
-
-    UpperPanel {
-        id: falsePanel
-        time: save.getInt("TimeWrong") === 0 ? 2000 : save.getInt("TimeWrong")
-        color: "red"
-        text: "Wrong"
-        onTriggered: variable.enableButton = true
+    MouseArea {
+        property bool failAnimationRunning
+        id: nextArea
+        enabled: variable.answered
+        anchors.fill: parent
+        onClicked: if (!failAnimationRunning) handleQuestions.next()
     }
 }
-

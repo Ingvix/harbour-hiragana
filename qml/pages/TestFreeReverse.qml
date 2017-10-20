@@ -30,6 +30,7 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import QtGraphicalEffects 1.0
 
 Page {
     id: test
@@ -38,12 +39,8 @@ Page {
         id: variable
         property int questions: 0
         property int correct: 0
-        property int rightanswer: 0
-        property bool started: false
-        property bool enableButton: true
-        property bool first: true
-        property string picture: "Hiragana/empty.png"
-        property string valuecorrect: ""
+        property string hiragana: testclass.hiragana()
+        property string valuecorrect: testclass.valuecorrect()
         property int sumCorrect: save.getInt("FreeReversrTestCorrect")
         property int sumQuestions: save.getInt("FreeReverseTestQuestions")
 
@@ -54,18 +51,10 @@ Page {
     Item {
         id: handleQuestions
 
-        function start(){
-            if(!variable.started)
-            {
-                variable.started = true
-                variable.enableButton = false
-                variable.first = false
-                testclass.newQuestion()
-                variable.picture = testclass.picture()
-                variable.valuecorrect = testclass.valuecorrect()
-                drawnImage.clear()
-            }
-
+        function next(){
+            testclass.newQuestion()
+            variable.valuecorrect = testclass.valuecorrect()
+            drawnImage.opacity = 0
         }
 
         function end(){
@@ -75,39 +64,11 @@ Page {
             {
                 variable.correct++
                 variable.sumCorrect++
+
             }
             save.saveInt("FreeReverseTestQuestions",variable.sumQuestions)
             save.saveInt("FreeReversrTestCorrect",variable.sumCorrect)
-            variable.started = false
-            if(variable.correctAnswer)
-            {
-                if(save.getBool("CorrectDisabled"))
-                {
-                    if(save.getBool("NextAfterCorrect"))
-                    {
-                        handleQuestions.start()
-                    }
-                    else
-                    {
-                        variable.enableButton = true
-                    }
-                }
-                else
-                {
-                    correctPanel.show()
-                }
-            }
-            else
-            {
-                if(save.getBool("WrongDisabled"))
-                {
-                    variable.enableButton = true
-                }
-                else
-                {
-                    falsePanel.show()
-                }
-            }
+            next()
         }
     }
 
@@ -120,229 +81,292 @@ Page {
 
         anchors.fill: parent
 
-        contentHeight: mainColumn.height
+        PageHeader {
+            id: header
+            title: "Free Reverse Test"
+        }
 
         Column {
             id: mainColumn
+            spacing: Theme.paddingLarge
 
             anchors {
+                top: header.bottom
                 left: parent.left
                 right: parent.right
-                margins: Theme.paddingLarge
+                leftMargin: Theme.paddingLarge
+                rightMargin: Theme.paddingLarge
             }
 
-            PageHeader {
-                title: "Free Reverse Test"
-            }
+            Stats {}
 
-            Row {
-                Label {
-                    text: "Questions: " + variable.questions + "   "
-                }
+            Label {
+                id: target2
+                text: variable.valuecorrect
+                anchors.horizontalCenter: parent.horizontalCenter
+                font.pixelSize: Theme.fontSizeHuge
 
-                Label {
-                    text: "Correct: " + variable.correct + "   "
+                onTextChanged: {
+                    targetBehavior.enabled = false
+                    scale = 1.2
+                    targetBehavior.enabled = true
+                    scale = 1
                 }
-
-                Label{
-                    text: "Ratio: " + (variable.questions === 0?0:(Math.round(100.0/variable.questions*variable.correct))) + "%"
-                }
-            }
-
-            Row {
-                Label {
-                    text: "Overall Questions: " + variable.sumQuestions + "   "
-                    font.pixelSize: Theme.fontSizeTiny
-                }
-
-                Label {
-                    text: "Overall Correct: " + variable.sumCorrect + "   "
-                    font.pixelSize: Theme.fontSizeTiny
-                }
-
-                Label{
-                    text: "Ratio: " + (variable.sumQuestions === 0?0:(Math.round(100.0/variable.sumQuestions*variable.sumCorrect))) + "%"
-                    font.pixelSize: Theme.fontSizeTiny
-                }
-            }
-
-            Row {
-                x: parent.width/2 - (target.width + target2.width)/2
-                Label {
-                    id: target2
-                    text: variable.valuecorrect
-                    font.pixelSize: Theme.fontSizeHuge
-                }
-                Image {
-                    id: target
-                    source: variable.started?"Hiragana/empty.png":variable.picture
+                Behavior on scale {
+                    id: targetBehavior
+                    enabled: false
+                    NumberAnimation {duration: 300; easing.type: Easing.OutQuart}
                 }
             }
 
             Rectangle {
+                id: canvasRec
                 width: Screen.width*2/3
                 height: width
-                x: (parent.width/2) - (width/2)
-                color: (variable.started && !variable.drawingComplete)?Theme.highlightColor:Theme.secondaryHighlightColor
+                color: Theme.rgba(Theme.highlightDimmerColor, 0.5)
+                anchors.horizontalCenter: parent.horizontalCenter
+                radius: Theme.paddingMedium
+                border.width: Theme.paddingSmall
+                border.color: yesButton.containsPress
+                       ? Theme.rgba("lawngreen", 0.15)
+                       : noButton.containsPress
+                         ? Theme.rgba("red", 0.15)
+                         : variable.drawingComplete
+                           ? Theme.rgba(Theme.secondaryColor, 0.15)
+                           : Theme.rgba(Theme.highlightBackgroundColor, 0.15)
+                clip: true
 
-                Rectangle {
-                    width: parent.width - 10
-                    height: parent.height - 10
-                    anchors.centerIn: parent
-                    color: (variable.started && !variable.drawingComplete)?"black":"#3A3A3A"
+                Behavior on border.color {
+                    ColorAnimation {duration: 200; easing.type: Easing.InOutQuad}
+                }
 
-                    Canvas {
+                Canvas {
 
-                        function clear() {
-                            var context = drawnImage.getContext('2d')
-                            context.clearRect(0, 0, drawnImage.width, drawnImage.height)
-                            clearDrawing = true
-                            requestPaint()
-                            clearDrawing = false
+                    function clear() {
+                        var context = drawnImage.getContext('2d')
+                        context.clearRect(0, 0, drawnImage.width, drawnImage.height)
+                        clearDrawing = true
+                        requestPaint()
+                        clearDrawing = false
+                    }
+
+                    property int positionX: 0
+                    property int positionY: 0
+                    property bool clearDrawing: false
+
+                    id: drawnImage
+                    anchors {fill: parent; margins: Theme.paddingMedium}
+
+                    renderTarget: Canvas.FramebufferObject
+                    antialiasing: true
+
+                    onPaint: {
+                        if(!clearDrawing && mouseArea.containsMouse)
+                        {
+                            var context = getContext('2d')
+                            context.lineJoin = "round"
+                            context.linecap = "round"
+                            context.lineWidth = Theme.paddingMedium
+                            context.strokeStyle = Theme.highlightColor
+                            context.beginPath()
+                            context.moveTo(positionX, positionY)
+                            context.lineTo(mouseArea.mouseX, mouseArea.mouseY)
+                            context.stroke()
+
+                            var radius = Theme.paddingSmall
+                            context.beginPath()
+                            context. arc(positionX, positionY,radius,0*Math.PI,2*Math.PI)
+                            context.fillStyle = Theme.highlightColor
+                            context.fill()
+                            positionX = mouseArea.mouseX
+                            positionY = mouseArea.mouseY
                         }
+                    }
 
-                        property int positionX: 0
-                        property int positionY: 0
-                        property bool clearDrawing: false
+                    Behavior on opacity {
+                        SequentialAnimation {
+                            NumberAnimation {duration: 200; easing.type: Easing.InOutQuad}
+                            ScriptAction {script: drawnImage.clear()}
+                            ScriptAction {  // These two scripts are separated because sometimes it seemed to leave some sort of partial or perfect afterimage
+                                script: {   // of the previously drawn image that would disappear when starting to draw the next hiragana
+                                    parent.enabled = false // This gives the image time to clear in peace before the opacity is changed back to 1.
+                                    drawnImage.opacity = 1
+                                    parent.enabled = true
+                                }
+                            }
+                        }
+                    }
 
-                        id: drawnImage
+                    MouseArea {
+                        id: mouseArea
                         height: parent.height
                         width: parent.width
                         anchors.centerIn: parent
+                        preventStealing: true
+                        hoverEnabled: true
+                        enabled: !variable.drawingComplete
 
-                        renderTarget: Canvas.FramebufferObject
-                        antialiasing: true
-
-                        onPaint: {
-                            if(!clearDrawing && mouseArea.containsMouse)
-                            {
-                                var context = getContext('2d')
-                                context.lineJoin = "round"
-                                context.linecap = "round"
-                                context.lineWidth = 5
-                                context.strokeStyle = "lightgrey"
-                                context.beginPath()
-                                context.moveTo(positionX, positionY)
-                                context.lineTo(mouseArea.mouseX, mouseArea.mouseY)
-                                context.stroke()
-                                positionX = mouseArea.mouseX
-                                positionY = mouseArea.mouseY
-                            }
+                        onPressed: {
+                            drawnImage.positionX = mouseX
+                            drawnImage.positionY = mouseY
+                            drawnImage.requestPaint()
+                        }
+                        onReleased: {
+                            drawnImage.positionX = mouseX
+                            drawnImage.positionY = mouseY
+                            drawnImage.requestPaint()
                         }
 
-                        MouseArea {
-                            id: mouseArea
-                            height: parent.height
-                            width: parent.width
-                            anchors.centerIn: parent
+                        onPositionChanged: drawnImage.requestPaint()
+                    }
+                }
+                ColorOverlay {
+                    id: colorOverlay
+                    opacity: drawnImage.opacity
+                    anchors.fill: drawnImage
+                    source: drawnImage
+                    color: yesButton.containsPress
+                           ? "lawngreen"
+                           : noButton.containsPress
+                             ? "red"
+                             : variable.drawingComplete
+                               ? Theme.secondaryColor
+                               : Theme.highlightColor
 
-                            enabled: variable.started && !variable.drawingComplete
+                    Behavior on color {
+                        ColorAnimation {duration: 200; easing.type: Easing.InOutQuad}
+                    }
+                }
 
-                            onPressed: {test.backNavigation = false; test.canNavigateForward = false; flickable.interactive = false; hoverEnabled = true; drawnImage.positionX = mouseX; drawnImage.positionY = mouseY}
-                            onReleased: {test.backNavigation = true; test.canNavigateForward = true; flickable.interactive = true; hoverEnabled = false}
-                            onPositionChanged: {
-                                drawnImage.requestPaint()
+            }
+
+            Item {
+                height: buttonRow.height
+                width: parent.width
+
+                Item {
+                    id: buttonAnswerItem
+                    y: -Theme.paddingLarge
+                    height: buttonRow.height + 2 * Theme.paddingLarge
+                    width: mainColumn.width
+                    opacity: 0
+
+                    Column {
+                        id: buttonAnswerColumn
+                        spacing: Theme.paddingLarge
+                        y: variable.drawingComplete ? -buttonRow.height : Theme.paddingLarge
+
+                        Row {
+                            id: buttonRow
+                            width: mainColumn.width
+                            spacing: Theme.paddingMedium
+
+                            Button {
+                                id: button1
+                                enabled: !variable.drawingComplete
+                                text: "Clear"
+                                onClicked: {
+                                    drawnImage.clear()
+                                }
+                            }
+
+                            Button {
+                                enabled: !variable.drawingComplete
+                                text: "Done"
+                                onClicked: {
+                                    variable.drawingComplete = true
+                                }
+                            }
+                        }
+                        Label {
+                            id: remid
+                            text: variable.hiragana
+                            font.pixelSize: Theme.fontSizeExtraLarge
+                            anchors.horizontalCenter: parent.horizontalCenter
+                        }
+                        Behavior on y {
+                            NumberAnimation {
+                                onRunningChanged: {
+                                    if (running === false && buttonAnswerColumn.y === Theme.paddingLarge) {
+                                        variable.hiragana = testclass.hiragana() //So next answer won't be shown during animation
+                                    }
+                                }
+
+                                duration: 300; easing.type: Easing.InOutQuad
                             }
                         }
                     }
                 }
-            }
 
-            Row {
-                width: parent.width
-
-                Button {
-                    width: parent.width/2
-                    enabled: variable.started && !variable.drawingComplete
-                    text: "Clear"
-                    onClicked: {
-                        drawnImage.clear()
-                    }
-                }
-
-                Button {
-                    width: parent.width/2
-                    enabled: variable.started && !variable.drawingComplete
-                    text: "Finished"
-                    onClicked: {
-                        variable.drawingComplete = true
-                    }
-                }
-            }
-
-            Separator {
-                width: parent.width
-                color: Theme.secondaryColor
-            }
-
-            Label {
-                x: parent.width/2 - width/2
-                color: (variable.started && variable.drawingComplete)?Theme.primaryColor:Theme.secondaryColor
-                text: "Is it the same?"
-            }
-
-            Image {
-                x: parent.width/2 - width/2
-                source: variable.drawingComplete?variable.picture:"Hiragana/empty.png"
-            }
-
-            Separator {
-                width: parent.width
-                color: Theme.secondaryColor
-            }
-
-            Button {
-                id: newQuestion
-                width: parent.width
-                enabled: variable.enableButton
-                visible: !(variable.started && variable.drawingComplete)
-                text: variable.first?"Start":"Continue"
-                onClicked: handleQuestions.start()
-            }
-
-            Row {
-                width: parent.width
-                visible: variable.started && variable.drawingComplete
-
-                Button {
-                    width: parent.width/2
-                    enabled: variable.started && variable.drawingComplete
-                    text: "Yes"
-                    onClicked: {
-                        variable.drawingComplete = false
-                        variable.correctAnswer = true
-                        handleQuestions.end()
-                    }
-                }
-
-                Button {
-                    width: parent.width/2
-                    enabled: variable.started && variable.drawingComplete
-                    text: "No"
-                    onClicked: {
-                        variable.drawingComplete = false
-                        variable.correctAnswer = false
-                        handleQuestions.end()
+                OpacityMask {
+                    source: buttonAnswerItem
+                    anchors.fill: buttonAnswerItem
+                    maskSource: Rectangle {
+                        id: mask
+                        height: buttonAnswerItem.height
+                        width: buttonAnswerItem.width
+                        gradient: Gradient {
+                            GradientStop {position: 0.0; color: "transparent"}
+                            GradientStop {position: Theme.paddingLarge / mask.height}
+                            GradientStop {position: (Theme.paddingLarge + buttonRow.height) / mask.height}
+                            GradientStop {position: 1.0; color: "transparent"}
+                        }
                     }
                 }
             }
         }
-    }
 
-    UpperPanel {
-        id: correctPanel
-        time: save.getInt("TimeCorrect") === 0 ? 2000: save.getInt("TimeCorrect")
-        color: "green"
-        text: "Correct"
-        onTriggered: save.getBool("NextAfterCorrect")? handleQuestions.start() : variable.enableButton = true
-    }
+        ViewPlaceholder {
+            id: holder
+            text: "Close enough?"
+            anchors{top: mainColumn.bottom}
+            enabled: variable.drawingComplete
 
-    UpperPanel {
-        id: falsePanel
-        time: save.getInt("TimeWrong") === 0 ? 2000 : save.getInt("TimeWrong")
-        color: "red"
-        text: "Wrong"
-        onTriggered: variable.enableButton = true
+            onTextChanged: {
+                holderBehavior.enabled = false
+                scale = 1.2
+                holderBehavior.enabled = true
+                scale = 1
+            }
+            Behavior on scale {
+                id: holderBehavior
+                enabled: false
+                NumberAnimation {duration: 300; easing.type: Easing.OutQuart}
+            }
+        }
+
+        Row {
+            width: parent.width
+            opacity: holder.opacity
+            spacing: Theme.paddingMedium
+            anchors{top: holder.bottom; left: parent.left; right: parent.right; margins: Theme.paddingLarge}
+
+            Button {
+                id:yesButton
+                width: parent.width/2
+                enabled: variable.drawingComplete
+                text: "Yes"
+                color: "lawngreen"
+                onClicked: {
+                    variable.correctAnswer = true
+                    handleQuestions.end()
+                    variable.drawingComplete = false
+                }
+            }
+
+            Button {
+                id: noButton
+                width: parent.width/2
+                enabled: variable.drawingComplete
+                text: "No"
+                color: "red"
+                onClicked: {
+                    variable.correctAnswer = false
+                    handleQuestions.end()
+                    variable.drawingComplete = false
+                }
+            }
+        }
     }
 }
 

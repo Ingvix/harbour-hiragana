@@ -34,10 +34,15 @@ import Sailfish.Silica 1.0
 CoverBackground {
     Image {
         id: coverImage
-        height: parent.height
-        width: parent.width
-        fillMode: Image.PreserveAspectFit
-        source: "cover.png"
+        sourceSize.width: parent.width * 1.3
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+            top: parent.top
+            topMargin: - Theme.paddingLarge
+        }
+
+        opacity: 0.1
+        source: "cover.svg"
     }
     Label {
         id: label

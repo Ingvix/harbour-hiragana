@@ -41,10 +41,7 @@ Dialog {
 
     onAccepted: {
         save.saveBool("NextAfterCorrect", autonext.checked)
-        save.saveBool("CorrectDisabled", enabled1.checked)
-        save.saveInt("TimeCorrect", time1.value)
-        save.saveBool("WrongDisabled", enabled2.checked)
-        save.saveInt("TimeWrong", time2.value)
+        save.saveBool("LabelsEnabled", enabled1.checked)
         save.saveBool("UseKunrei", kunrei.checked)
         while(pageStack.busy)
         {
@@ -62,6 +59,7 @@ Dialog {
 
         Column {
             id: mainColumn
+            spacing: Theme.paddingMedium
 
             anchors {
                 left: parent.left
@@ -81,67 +79,32 @@ Dialog {
                 width: parent.width
                 checked: save.getBool("UseKunrei")
                 text: "Use Kunrei for transcription"
-                description: "If this option is checked, 'Kunrei-shiki romanization' will be used for transcripting Hiragana rather than 'Hepburn romanization'"
+                description: "Use 'Kunrei-shiki romanization' for transcripting Hiragana instead of 'Hepburn romanization'"
             }
 
             TextSwitch {
                 id: autonext
                 width: parent.width
                 checked: save.getBool("NextAfterCorrect")
-                text: "Automatically get new questions after correct answer"
-                description: "If this option is checked, you will automatically get a new question after you answered the previous one correctly"
+                text: "Automatically get a new question after correct answer"
+                //I think label says it all so no need for description
             }
 
             TextSwitch {
                 id: enabled1
                 width: parent.width
-                checked: save.getBool("CorrectDisabled")
-                text: "Disable 'Correct'-Popup"
-                description: "Disables the Answer-Popup which is shown in tests on correct answers"
-            }
-
-            Slider {
-                id: time1
-                width: parent.width
-                minimumValue: 500
-                maximumValue: 5000
-                value: save.getInt("TimeCorrect") === 0 ? 2000: save.getInt("TimeCorrect")
-                stepSize: 500
-                valueText: value / 1000 + " sec"
-                label: "Time the 'Correct'-Popup is shown"
-            }
-
-            TextSwitch {
-                id: enabled2
-                width: parent.width
-                checked: save.getBool("WrongDisabled")
-                text: "Disable 'Wrong'-Popup"
-                description: "Disables the Answer-Popup which is shown in tests on wrong answers"
-            }
-
-            Slider {
-                id: time2
-                width: parent.width
-                minimumValue: 500
-                maximumValue: 5000
-                value: save.getInt("TimeWrong") === 0 ? 2000 : save.getInt("TimeWrong")
-                stepSize: 500
-                valueText: value / 1000 + " sec"
-                label: "Time the 'Wrong'-Popup is shown"
-            }
-
-            Separator {
-                width: parent.width
-                color: Theme.secondaryColor
+                checked: save.getBool("LabelsEnabled")
+                text: "Show result labels"
+                description: "Show 'Correct' and 'Wrong' labels after answer"
+                height: implicitHeight + Theme.paddingLarge
             }
 
             Button {
                 width: parent.width
-                text: "Delete save"
-                onClicked: remorsePopup.execute("Deleting save", function() {save.clear(); save.saveNow(); pageStack.replaceAbove(null, Qt.resolvedUrl("Grid.qml")) } )
+                text: "Reset statistics"
+                onClicked: remorsePopup.execute("Resetting statistics", function() {save.clearStats(); save.saveNow(); pageStack.replaceAbove(null, Qt.resolvedUrl("Grid.qml")) } )
+                height: Theme.itemSizeExtraSmall + Theme.paddingLarge
             }
-
-
         }
     }
 }

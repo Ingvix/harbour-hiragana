@@ -39,8 +39,8 @@ class ListElement : public QObject
 public:
     explicit ListElement(QObject *parent = 0);
     ListElement(const ListElement& e);
-    QString Name;
-    QString ImagePath;
+    QString Romaji;
+    QString Hiragana;
     int Question;
     void operator=(const ListElement& other);
 

@@ -35,7 +35,6 @@ Item {
     width: Screen.width
     height: Screen.height / 8
 
-    property color color: "green"
     property int time: 2000
     property string text: ""
 
@@ -58,9 +57,10 @@ Item {
         dock: Dock.Top
 
         Rectangle {
-            width: parent.width
-            height: parent.height
-            color: dockedPanel.color
+            anchors.fill: parent
+            color: Qt.darker(Theme.highlightBackgroundColor)
+
+
 
             Label {
                 text: dockedPanel.text

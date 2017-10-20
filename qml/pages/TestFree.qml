@@ -28,22 +28,20 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-import QtQuick 2.0
+import QtQuick 2.5
 import Sailfish.Silica 1.0
 
 Page {
     id: test
+    allowedOrientations: defaultAllowedOrientations
 
     Item {
         id: variable
         property int questions: 0
         property int correct: 0
-        property int rightanswer: 0
-        property bool started: false
-        property bool enableButton: true
-        property bool first: true
-        property string picture: "Hiragana/empty.png"
-        property string valuecorrect: ""
+        property bool answered: false
+        property string hiragana: testclass.hiragana()
+        property string valuecorrect: testclass.valuecorrect()
         property int sumCorrect: save.getInt("FreeTestCorrect")
         property int sumQuestions: save.getInt("FreeTestQuestions")
     }
@@ -51,20 +49,15 @@ Page {
     Item {
         id: handleQuestions
 
-        function start(){
-            if(!variable.started || (save.getBool("CorrectDisabled") && save.getBool("NextAfterCorrect")))
-            {
-                variable.started = true
-                variable.enableButton = false
-                variable.first = false
-                testclass.newQuestion()
-                variable.picture = testclass.picture()
-                variable.valuecorrect = testclass.valuecorrect()
-                input.placeholderText = "answer"
-                input.text = ""
-                input.forceActiveFocus()
-            }
-
+        function next(){
+            variable.answered = false
+            colorChangeTimer.stop()
+            holder.enabled = false
+            testclass.newQuestion()
+            variable.valuecorrect = testclass.valuecorrect()
+            input.color = Qt.binding(function() {return input.errorHighlight
+                                                 ? "#ff4d4d"
+                                                 : (input.highlighted ? Theme.highlightColor : Theme.primaryColor)})
         }
 
 
@@ -80,38 +73,21 @@ Page {
             }
             save.saveInt("FreeTestQuestions",variable.sumQuestions)
             save.saveInt("FreeTestCorrect",variable.sumCorrect)
+            variable.answered = true
             if(correct)
             {
-                if(save.getBool("CorrectDisabled"))
-                {
-                    if(save.getBool("NextAfterCorrect"))
-                    {
-                        handleQuestions.start()
-                    }
-                    else
-                    {
-                        variable.started = false
-                        variable.enableButton = true
-                    }
-                }
-                else
-                {
-                    variable.started = false
-                    correctPanel.show()
-                }
+                holder.text = "Correct!"
+                colorChangeTimer.color = "lawngreen"
+                colorChangeTimer.dimmerColor = "green"
+                colorChangeTimer.start()
             }
             else
             {
-                if(save.getBool("WrongDisabled"))
-                {
-                    variable.started = false
-                    variable.enableButton = true
-                }
-                else
-                {
-                    variable.started = false
-                    falsePanel.show()
-                }
+                holder.text = "Wrong!"
+                colorChangeTimer.color = "red"
+                colorChangeTimer.dimmerColor = "darkred"
+                nextArea.failAnimationRunning = true
+                colorChangeTimer.start()
             }
         }
     }
@@ -124,102 +100,161 @@ Page {
 
         anchors.fill: parent
 
-        contentHeight: mainColumn.height
+        PageHeader {
+            id: header
+            title: "Free Test"
+        }
 
-        Column {
-            id: mainColumn
-
+        Stats {
+            id: stats
             anchors {
                 left: parent.left
-                right: parent.right
-                margins: Theme.paddingLarge
+                leftMargin: Theme.paddingLarge
+                top: header.bottom
+            }
+            scale: test.isLandscape
+                   ? implicitWidth > (input.x - 2 * Theme.paddingLarge)
+                     ? (input.x - 2 * Theme.paddingLarge) / implicitWidth
+                     : 1
+            : implicitWidth > (parent.width - (Theme.paddingMedium + 2 * Theme.paddingLarge))
+            ? (parent.width - (Theme.paddingMedium + 2 * Theme.paddingLarge)) / implicitWidth
+            : 1
+        }
+
+        Label {
+            id: target
+            text: variable.hiragana
+            font.pixelSize: Theme.fontSizeHuge
+            anchors {
+                top: test.isLandscape ? header.bottom : stats.bottom
+                topMargin: test.isLandscape ? 0 : Theme.paddingLarge
+                horizontalCenter: parent.horizontalCenter
             }
 
-            PageHeader {
-                title: "Free Test"
+            onTextChanged: {
+                targetBehavior.enabled = false
+                scale = 1.2
+                targetBehavior.enabled = true
+                scale = 1
             }
-
-            Row {
-                Label {
-                    text: "Questions: " + variable.questions + "   "
-                }
-
-                Label {
-                    text: "Correct: " + variable.correct + "   "
-                }
-
-                Label{
-                    text: "Ratio: " + (variable.questions === 0?0:(Math.round(100.0/variable.questions*variable.correct))) + "%"
-                }
+            Behavior on scale {
+                id: targetBehavior
+                enabled: false
+                NumberAnimation {duration: 300; easing.type: Easing.OutQuart}
             }
+        }
 
-            Row {
-                Label {
-                    text: "Overall Questions: " + variable.sumQuestions + "   "
-                    font.pixelSize: Theme.fontSizeTiny
-                }
-
-                Label {
-                    text: "Overall Correct: " + variable.sumCorrect + "   "
-                    font.pixelSize: Theme.fontSizeTiny
-                }
-
-                Label{
-                    text: "Ratio: " + (variable.sumQuestions === 0?0:(Math.round(100.0/variable.sumQuestions*variable.sumCorrect))) + "%"
-                    font.pixelSize: Theme.fontSizeTiny
-                }
-            }
-
-            Row {
-                x: parent.width/2 - (target.width + target2.width)/2
-                Image {
-                    id: target
-                    source: variable.picture
-                }
-                Label {
-                    id: target2
-                    visible: !variable.started
-                    text: variable.valuecorrect
-                    font.pixelSize: Theme.fontSizeHuge
+        TextField {
+            id: input
+            focus: !variable.answered && !sizeAnimation.running
+            onFocusChanged: {
+                if (focus) {
+                    focus = Qt.binding(function() {return !variable.answered && !sizeAnimation.running})
                 }
             }
 
-            TextField {
-                id: input
-                placeholderText: ""
-                EnterKey.enabled: text.length > 0
-                EnterKey.iconSource: "image://theme/icon-m-enter-next"
-                EnterKey.onClicked: handleQuestions.end()
-                width: mainColumn.width
-                enabled: variable.started
-                font.capitalization: Font.AllLowercase
-                inputMethodHints: Qt.ImhNoPredictiveText
+            placeholderText: "Romaji"
+            EnterKey.enabled: acceptableInput
+            EnterKey.iconSource: "image://theme/icon-m-enter-next"
+            EnterKey.onClicked: handleQuestions.end()
+            scale: variable.answered ? 1.5 : 1
+            width: Screen.width / 3
+            anchors {
+                top: target.bottom
+                topMargin: Theme.paddingLarge
+                horizontalCenter: parent.horizontalCenter
             }
+            horizontalAlignment: TextInput.AlignHCenter
+            readOnly: variable.answered || sizeAnimation.running
+            inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase
+            validator: RegExpValidator {regExp: /.{1,}/}
 
-            Button {
-                id: newQuestion
-                width: parent.width
-                enabled: variable.enableButton
-                text: variable.first?"Start":"Continue"
-                onClicked: handleQuestions.start()
+            Behavior on color {
+                id: colorBehavior
+                ColorAnimation {duration: 200; easing.type: Easing.InOutQuad}
+            }
+            Behavior on scale {
+                id: sizeBehavior
+                NumberAnimation {
+                    id: sizeAnimation
+                    duration: 300
+                    easing.type: Easing.InOutQuad
+                    onRunningChanged: {
+                        if (!variable.answered && !running) {
+                            input.text = ""
+                            variable.hiragana = testclass.hiragana()
+                        }
+                    }
+                }
+            }
+            Behavior on opacity {
+                NumberAnimation {duration: 200; easing.type: Easing.InOutQuad}
+            }
+        }
+
+
+        ViewPlaceholder {
+            id: holder
+            enabled: false
+            text: "Tap anywhere for next question"
+            anchors {
+                top: input.bottom
+                topMargin: Theme.paddingLarge
             }
         }
     }
 
-    UpperPanel {
-        id: correctPanel
-        time: save.getInt("TimeCorrect") === 0 ? 2000: save.getInt("TimeCorrect")
-        color: "green"
-        text: "Correct"
-        onTriggered: save.getBool("NextAfterCorrect")? handleQuestions.start() : variable.enableButton = true
+    Timer {
+        property color color
+        property color dimmerColor
+        property int loops: 0
+        id: colorChangeTimer
+        interval: 300
+        repeat: true
+        onRunningChanged: {
+            input.color = color
+            if (!running) {
+                nextArea.failAnimationRunning = false
+                loops = 0
+            }
+            else if (save.getBool("LabelsEnabled"))holder.enabled = true
+        }
+
+        onTriggered: {
+            loops++
+            if (loops === 5) {
+                if (Qt.colorEqual(color, "red")) {
+                    input.opacity = 0
+                }
+                holder.enabled = false
+            }
+
+            if (loops === 6) {
+                color = "lawngreen"
+                input.text = variable.valuecorrect
+                input.opacity = 1
+                holder.text = "Tap anywhere for next question"
+                holder.enabled = true
+                stop()
+            }
+            else {
+            input.color = input.color === dimmerColor ? color : dimmerColor
+            }
+        }
     }
 
-    UpperPanel {
-        id: falsePanel
-        time: save.getInt("TimeWrong") === 0 ? 2000 : save.getInt("TimeWrong")
-        color: "red"
-        text: "Wrong"
-        onTriggered: variable.enableButton = true
+    MouseArea {
+        property bool failAnimationRunning: false
+        id: nextArea
+        enabled: variable.answered
+        anchors.fill: parent
+        onClicked: if (!failAnimationRunning) handleQuestions.next()
+    }
+
+    Timer {
+        id: nextTimer
+        interval: 1000
+        onTriggered: handleQuestions.next()
     }
 }
 

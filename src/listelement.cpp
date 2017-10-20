@@ -37,15 +37,15 @@ ListElement::ListElement(QObject *parent) :
 ListElement::ListElement(const ListElement& e) :
     QObject()
 {
-    Name = e.Name;
-    ImagePath = e.ImagePath;
+    Romaji = e.Romaji;
+    Hiragana = e.Hiragana;
     Question = e.Question;
 
 }
 
 void ListElement::operator=(const ListElement& other)
 {
-    Name = other.Name;
-    ImagePath = other.ImagePath;
+    Romaji = other.Romaji;
+    Hiragana = other.Hiragana;
     Question = other.Question;
 }
